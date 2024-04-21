@@ -9,13 +9,14 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'view/posts.html'));
 });
 
+router.get('/new', (req, res) => {
+    res.sendFile(path.join(__dirname, '/view/add-post.html'));
+});
+
 router.get('/:postId', (req, res) => {
     res.sendFile(path.join(__dirname, '/view/post-detail.html'));
 });
 
-router.get('/new', (req, res) => {
-    res.sendFile(path.join(__dirname, '/view/add.post.html'));
-});
 
 router.get('/:postId/edit', (req, res) => {
     res.sendFile(path.join(__dirname, 'view/edit-post.html'));

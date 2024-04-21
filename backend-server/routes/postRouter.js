@@ -10,7 +10,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get('/', postController.getPosts);
-
+router.post('/', postController.createPost)
 
 
 export default router;
