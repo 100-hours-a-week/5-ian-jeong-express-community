@@ -67,11 +67,25 @@ function createUser(newUser) {
     fs.writeFileSync(__dirname + '/models/users.json', newUsersJson,'utf8');
 }
 
+function getUser(userId) {
+    const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
+    const usersJsonData = JSON.parse(usersJsonFile);
+
+    for (let i = 0; i < usersJsonData.length; i++) {
+        let user = usersJsonData[i];
+        if (user.id === parseInt(userId)) {
+            return user;
+        }
+    }
+
+}
+
 
 
 export default {
     validateUser,
     validateDuplicatedEmail,
     validateDuplicatedNickname,
-    createUser
+    createUser,
+    getUser
 };

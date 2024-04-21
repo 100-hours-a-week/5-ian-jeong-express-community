@@ -1,5 +1,15 @@
 const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
 
+document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+    window.location.href=`/users/${userId}/edit`;
+});
+
+document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+    window.location.href=`/users/${userId}/password`;
+})
+
+
+
 // 프로필 드롭다운 박스 
 const profileImg = document.getElementById("profile-img");
 profileImg.addEventListener("click", function() {
@@ -21,10 +31,11 @@ document.addEventListener('click', function(event) {
 
 
 // 그리고 패치로 유저 데이터 가져와서 이미지 꺼내서 프로필 사진태그 속성 변경 ㄱㄱ
-fetch(`localhost:backend-port/users/${userId}`) // 패치로 유저 아이디에 해당하는 유저 데이터를 제이슨으로 받아와서 세팅
+fetch(`http://localhost:8081/users/${userId}`) // 패치로 유저 아이디에 해당하는 유저 데이터를 제이슨으로 받아와서 세팅
     .then(userData => userData.json())
     .then(userJson => {
-        document.getElementById("profile-img").src = userJson.image;
+        console.log(userJson);
+        document.getElementById("profile-img").src = userJson.profileImage;
     })
 
 

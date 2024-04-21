@@ -17,6 +17,8 @@ router.post('/sign-in', userController.validateUser);
 router.get('/email', userController.validateDuplicatedEmail);
 router.get('/nickname', userController.validateDuplicatedNickname);
 
+router.get('/:userId', userController.getUser);
+
 
 
 export default router;

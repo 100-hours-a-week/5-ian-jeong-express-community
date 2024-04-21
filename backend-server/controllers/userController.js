@@ -55,11 +55,17 @@ function createUser(req, res) {
     res.redirect('http://localhost:8080/users/sign-in');
 }
 
+function getUser(req, res) {
+    const user = model.getUser(req.params.userId);
+
+    res.json(user);
+}
 
 
 export default {
     validateUser,
     validateDuplicatedEmail,
     validateDuplicatedNickname,
-    createUser
+    createUser,
+    getUser
 };
