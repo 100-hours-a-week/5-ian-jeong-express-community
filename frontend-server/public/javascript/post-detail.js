@@ -70,11 +70,23 @@ modalCancel.addEventListener('click', function(event) {
     document.body.style.overflow = "visible";
 });
 
+var currentUrl = window.location.href;
+var urlParams = currentUrl.split('/');
+const postId = urlParams[urlParams.length - 1]; 
+
+
 const modalDelete = document.getElementById("modal-delete"); // 게시글 삭제 모달 창에서 삭제 이벤트
+
+
+
+
+
+
 modalDelete.addEventListener('click', function(event) {
-    // 게시글 삭제하고 알림창 띄우고 post로 이동
+    fetch(`http://localhost:8081/posts/${postId}`, {method: 'DELETE'});
     alert('해당 게시글이 삭제되었습니다!');
-    window.location.href = 'post';
+
+    window.location.href= '/posts';
 });
 
 
@@ -84,14 +96,6 @@ modalDelete.addEventListener('click', function(event) {
 
 
 
-
-
-
-
-
-var currentUrl = window.location.href;
-var urlParams = currentUrl.split('/');
-const postId = urlParams[urlParams.length - 1]; 
 
 fetch(`http://localhost:8081/posts/${postId}`) // 해당 포스트 데이터 세팅
     .then(postData => postData.json())

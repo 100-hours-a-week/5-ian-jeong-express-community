@@ -62,19 +62,28 @@ function getComments(postId) {
     const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
 
-    console.log(commentsJsonData);
-    console.log(postId);
     
 
     return commentsJsonData.filter(comment => comment.postId === parseInt(postId));
 }
 
 
+function deletePost(postId) {
+    const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
+    const postsJsonData = JSON.parse(postsJsonFile);
+    const filteredData = postsJsonData.filter(post => post.id !== parseInt(postId));
+
+
+    const deletedJsonData = JSON.stringify(filteredData);
+
+    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), deletedJsonData);
+}
 
 
 export default {
     getPosts,
     createPost,
     getPost,
-    getComments
+    getComments,
+    deletePost
 };

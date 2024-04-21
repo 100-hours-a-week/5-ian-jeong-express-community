@@ -10,8 +10,12 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get('/', postController.getPosts);
-router.post('/', postController.createPost)
-router.get('/:postId', postController.getPost)
-router.get('/:postId/comments', postController.getComments)
+router.post('/', postController.createPost);
+router.get('/:postId', postController.getPost);
+router.get('/:postId/comments', postController.getComments);
+
+router.delete('/:postId', postController.deletePost);
+
+
 
 export default router;

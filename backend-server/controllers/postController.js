@@ -1,9 +1,7 @@
 import model from '../models/postModel.js';
 
 function getPosts(req, res) {
-    console.log('asd');
     const postsJson = model.getPosts();
-    console.log(postsJson);
 
     res.json(postsJson);
 }
@@ -19,8 +17,8 @@ function createPost(req, res) {
     
     model.createPost(newPost);
 
-    // Res 뭐해야하지
-    // 로그인 창으로 리다이렉트
+    
+    
     res.redirect('http://localhost:8080/posts');
 }
 
@@ -37,6 +35,12 @@ function getComments(req, res) {
     res.json(comments);
 }
 
+function deletePost(req, res) {
+    model.deletePost(req.params.postId);
+
+    
+}
+
 
 
 
@@ -44,5 +48,6 @@ export default {
     getPosts,
     createPost,
     getPost,
-    getComments
+    getComments,
+    deletePost
 };
