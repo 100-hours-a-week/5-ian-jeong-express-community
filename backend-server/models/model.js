@@ -17,8 +17,23 @@ function validateUser(email, password) {
     return false;
 }
 
+function validateDuplicatedEmail(email) {
+    const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
+    const usersJsonData = JSON.parse(usersJsonFile);
+
+    for (let i = 0; i < usersJsonData.length; i++) {
+        let user = usersJsonData[i];
+        if (user.email === email) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
 
 
 export default {
-    validateUser
+    validateUser,
+    validateDuplicatedEmail
 };

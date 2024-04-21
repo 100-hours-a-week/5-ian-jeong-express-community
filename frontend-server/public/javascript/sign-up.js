@@ -1,8 +1,3 @@
-/**
- * 
- */
-
-
 function addImage(event) {
     const file = event.target.files[0]; // 선택한 파일 가져오기
     const preview = document.getElementById("preview");
@@ -52,9 +47,9 @@ emailInput.addEventListener("blur", async function(event) {
     } 
 
     const flag = {'flag' : false};
-        
+    
     await validateDuplicateEmail(value, flag); // 이메일 중복 검사
-
+    console.log(flag['flag']);
     if (flag['flag']) {
         emailHelper.style.visibility = "hidden";
         isCorrentEmail = true;
@@ -73,26 +68,14 @@ function validateEmailFormat(email) {
     return emailRegex.test(email);
 }
 
-function validateDuplicateEmail(email, flag) {
+async function validateDuplicateEmail(email, flag) {
     // fetch나 ajax는 url이 안바뀜, rest가 아닌 컨트롤 자원에는 동사 허용, 반환값은 중복여부, 중복아니라면 true, 맞다면 false
     // "result" : "true" or "false"
 
-    // 객체를 만들때 키 값 역할을 하는 애는 변수처럼 따옴표로 안감싸도 됨
-    // 값은 다 가능. 근데 stingify 하면 키, 벨류 모두 문자열로 바뀌고 그걸 다시 파싱해서 객체로 만들면 키는 따옴표가 없지만 벨류는 문자열로 바뀜
-    const obj = {email : `${email}`};
-
-    const data = {
-        method: 'POST', // get요청은 캐싱될 수 있고, 검증 부분이 캐싱되면 좋지 않으므로 post요청
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(obj)
-    };
-
-    fetch('localhost:backend-port/users/email', data) // 바디에 Json 담아서 요청
+    await fetch(`http://localhost:8081/users/email?email=${email}`) // 바디에 Json 담아서 요청
         .then(isDuplicated => isDuplicated.json())
         .then(isDuplicatedJson => {
-            if (isDuplicatedJson.result) {
+            if (isDuplicatedJson.result === "true") {
                 flag['flag'] = true;
             }
        });

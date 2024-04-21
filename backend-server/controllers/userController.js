@@ -15,11 +15,23 @@ function validateUser(req, res) {
 
     res.json(resultJson);
 }
+
+function validateDuplicatedEmail(req, res) {
+    const email = req.query.email;
+    const isValid = model.validateDuplicatedEmail(email);
+
+    const resultJson = {
+        result : `${isValid}`
+    }
+
+    res.json(resultJson);
+}
  
 
 
 
 
 export default {
-    validateUser
+    validateUser,
+    validateDuplicatedEmail
 };

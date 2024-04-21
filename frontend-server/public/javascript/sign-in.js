@@ -90,7 +90,8 @@ async function validateAccount(flag, email, password) {
     await fetch('http://localhost:8081/users/sign-in', data) 
         .then(isAuthenticated => isAuthenticated.json())
         .then(isAuthenticatedJson => {
-             if(isAuthenticatedJson.result) {
+            console.log(isAuthenticatedJson);
+             if(isAuthenticatedJson.result === "true") {
                 flag['flag'] = true;
              }
         });
