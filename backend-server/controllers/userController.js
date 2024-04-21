@@ -1,4 +1,4 @@
-import model from './../models/model.js';
+import model from '../models/userModel.js';
 
 function validateUser(req, res) {
     // 제이슨으로 받은 유저 이메일과 비번 검증하고 

@@ -41,15 +41,11 @@ fetch(`http://localhost:8081/users/${userId}`) // 패치로 유저 아이디에 
 
 
 
-
 // 게시글 제이슨 가져와서 리스트 만들기 ㄱㄱ
-fetch('localhost:backend-port/posts')
+fetch('http://localhost:8081/posts')
     .then(postsData => postsData.json())
     .then(postsJson => {
-        const postIds = Object.keys([postsJson]);
-        postIds.forEach(postId => {
-            const post = postsJson[postId];
-
+        postsJson.forEach(post => {
             const postBox = document.createElement('div');
             postBox.classList.add('post-box');
             
@@ -86,7 +82,7 @@ fetch('localhost:backend-port/posts')
             const writer = document.createElement('div');
             writer.classList.add('writer');
 
-            postBox.id = postId;
+            postBox.id = post.id;
 
             // 타이틀 검사 진행
             if (post.title.length > 25) {
@@ -103,10 +99,10 @@ fetch('localhost:backend-port/posts')
             time.textContent = post.time;
             
 
-            fetch(`/users/${post.userId}}`) // 해당 게시물 작성한 유저 아이디 찾아야 프로필 찾기 가능, 결과는 해당 유저반환 
+            fetch(`http://localhost:8081/users/${post.writer}}`) // 해당 게시물 작성한 유저 아이디 찾아야 프로필 찾기 가능, 결과는 해당 유저반환 
                 .then(userData => userData.json())
                 .then(userJson => {
-                        profileImage.src = userJson.image;
+                        profileImage.src = userJson.profileImage;
                         writer.textContent = userJson.nickname;
                     })
 
@@ -122,7 +118,6 @@ fetch('localhost:backend-port/posts')
             downPost.appendChild(profileImage);
             downPost.appendChild(writer);
             
-            postBox.appendChild(postId);
             postBox.appendChild(upPost);
             postBox.appendChild(line);
             postBox.appendChild(downPost);
