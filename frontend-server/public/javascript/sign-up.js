@@ -260,3 +260,4 @@ document.addEventListener('click', function(event) {
     signUpBtn.disabled = true;
 });
 
+

@@ -38,10 +38,28 @@ function validateDuplicatedNickname(req, res) {
     res.json(resultJson);
 }
 
+function createUser(req, res) {
+    // 하기전에, 유저 아이디 부여, 하고 바디에서 데이터꺼내는 법 확인
+
+    const newUser = {
+        email : req.body.email,
+        password : req.body.password,
+        nickname : req.body.nickname,
+        profileImage : req.body.profileImage
+    }
+    
+    model.createUser(newUser);
+
+    // Res 뭐해야하지
+    // 로그인 창으로 리다이렉트
+    res.redirect('http://localhost:8080/users/sign-in');
+}
+
 
 
 export default {
     validateUser,
     validateDuplicatedEmail,
-    validateDuplicatedNickname
+    validateDuplicatedNickname,
+    createUser
 };
