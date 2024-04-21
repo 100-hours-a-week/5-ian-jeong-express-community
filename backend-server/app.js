@@ -1,11 +1,13 @@
 import express from 'express'; 
-import path from 'path';
+
+import userRouter from './routes/userRouter.js';
+import cors from 'cors';
 
 const app = express();
 const port = 8081; 
-const __dirname = path.resolve();
 
-
+app.use(cors());
+app.use('/users', userRouter);
 
 app.listen(port, () => { 
     console.log(`====================================== COMMUNITY BACKEND SERVER START ! ======================================`);

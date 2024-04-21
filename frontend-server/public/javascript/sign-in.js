@@ -42,15 +42,17 @@ async function validateSignIn(event) {
 
     await validateAccount(flag, email, password);
 
+    console.log(flag['flag']);
     if (flag['flag']) {
         document.getElementById('sign-in-btn').style.backgroundColor = '#7F6AEE';
         helperText.style.visibility = 'hidden';
-
+        
         return flag['flag'];
     }
     
     helperText.style.visibility = 'visible';
     helperText.textContent = "*비밀번호가 다릅니다.";
+    
             
     return flag['flag'];
 }
@@ -71,7 +73,7 @@ function validatePasswordFormat(password) {
 }
 
 // fetch로 백엔드에서 계정 검증
-function validateAccount(flag, email, password) {
+async function validateAccount(flag, email, password) {
     const obj = {
         email : `${email}`,
         password : `${password}`
@@ -85,7 +87,7 @@ function validateAccount(flag, email, password) {
         body: JSON.stringify(obj)
     }
 
-    fetch('localhost:backend-port/users/sign-in', data) 
+    await fetch('http://localhost:8081/users/sign-in', data) 
         .then(isAuthenticated => isAuthenticated.json())
         .then(isAuthenticatedJson => {
              if(isAuthenticatedJson.result) {
