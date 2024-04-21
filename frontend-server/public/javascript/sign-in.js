@@ -105,7 +105,8 @@ document.getElementById('sign-in-form').addEventListener('submit', async functio
         .then(result => {
             if (result) {
                 setTimeout(() => {
-                    document.getElementById('sign-in-form').submit();
+                    // document.getElementById('sign-in-form').submit();
+                    window.location.href = '/posts';
                 }, 3000);        
             }
     });
