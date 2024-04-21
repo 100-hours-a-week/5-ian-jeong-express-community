@@ -85,11 +85,11 @@ function validateAccount(flag, email, password) {
         body: JSON.stringify(obj)
     }
 
-    fetch('localhost:backend-port/validate/account', data) 
+    fetch('localhost:backend-port/users/sign-in', data) 
         .then(isAuthenticated => isAuthenticated.json())
         .then(isAuthenticatedJson => {
              if(isAuthenticatedJson.result) {
-                flag['falg'] = true;
+                flag['flag'] = true;
              }
         });
 }

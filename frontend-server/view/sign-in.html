@@ -16,7 +16,7 @@
 
     <!-- 로그인은 중요정보이기 때문에 get요청으로 쿼리파라미터에 넣는 것 보다는 Post요청으로 바디에 넣는것이 좋음 -->
     <!-- form 전송을 get요청으로 날리면 쿼리 파라미터로 들어가기 때문에 url에 표시됨 -->
-    <form id="sign-in-form" action="서버포트/posts" method="post" onsubmit="return validateSignIn(event)">
+    <form id="sign-in-form" action="localhost:8081/posts" method="get" onsubmit="return validateSignIn(event)">
         <div id="form-title">로그인</div>
         
 

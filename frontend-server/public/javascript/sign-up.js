@@ -89,7 +89,7 @@ function validateDuplicateEmail(email, flag) {
         body: JSON.stringify(obj)
     };
 
-    fetch('localhost:backend-port/validate/email', data) // 바디에 Json 담아서 요청
+    fetch('localhost:backend-port/users/email', data) // 바디에 Json 담아서 요청
         .then(isDuplicated => isDuplicated.json())
         .then(isDuplicatedJson => {
             if (isDuplicatedJson.result) {
@@ -258,7 +258,7 @@ function validateDuplicateNickname(nickname, flag) {
         body: JSON.stringify(obj)
     };
 
-    fetch('localhost:back-end port/validate/nickname', data)
+    fetch('localhost:back-end port/users/nickname', data)
         .then(isDuplicated => isDuplicated.json())
         .then(isDuplicatedJson => {
             if(isDuplicatedJson.result) {
