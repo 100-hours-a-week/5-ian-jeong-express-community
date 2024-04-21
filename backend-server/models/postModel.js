@@ -6,8 +6,6 @@ const __dirname = path.resolve();
 
 
 function getPosts() {
-    //post 아이디 부여해야함
-    // likes hits comments 0으로
     const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
 
@@ -22,13 +20,16 @@ function createPost(newPost) {
     const postsJsonData = JSON.parse(postsJsonFile);
 
     let newPostId = postsJsonData.length + 1;
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().replace('T', ' ').split('.')[0];
 
     const post = {
         id: newPostId,
         writer: newPost.writer,
         title: newPost.title,
-        content: newPost.contnet,
         image: newPost.image,
+        time: formattedDate,
+        content: newPost.contnet,
         likes : 0,
         hits: 0,
         comments: 0
@@ -44,14 +45,36 @@ function createPost(newPost) {
 
 
 
+function getPost(postId) {
+    const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
+    const postsJsonData = JSON.parse(postsJsonFile);
+
+    for (let i = 0; i < postsJsonData.length; i++) {
+        let post = postsJsonData[i];
+        if (post.id === parseInt(postId)) {
+            return post;
+        }
+    }
+}
 
 
+function getComments(postId) {
+    const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
+    const commentsJsonData = JSON.parse(commentsJsonFile);
 
+    console.log(commentsJsonData);
+    console.log(postId);
+    
+
+    return commentsJsonData.filter(comment => comment.postId === parseInt(postId));
+}
 
 
 
 
 export default {
     getPosts,
-    createPost
+    createPost,
+    getPost,
+    getComments
 };

@@ -11,6 +11,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get('/', postController.getPosts);
 router.post('/', postController.createPost)
-
+router.get('/:postId', postController.getPost)
+router.get('/:postId/comments', postController.getComments)
 
 export default router;

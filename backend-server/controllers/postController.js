@@ -25,7 +25,24 @@ function createPost(req, res) {
 }
 
 
+function getPost(req, res) {
+    const post = model.getPost(req.params.postId);
+
+    res.json(post);
+}
+
+function getComments(req, res) {
+    const comments = model.getComments(req.params.postId);
+    
+    res.json(comments);
+}
+
+
+
+
 export default {
     getPosts,
-    createPost
+    createPost,
+    getPost,
+    getComments
 };
