@@ -27,11 +27,21 @@ function validateDuplicatedEmail(req, res) {
     res.json(resultJson);
 }
  
+function validateDuplicatedNickname(req, res) {
+    const nickname = req.query.nickname;
+    const isValid = model.validateDuplicatedNickname(nickname);
 
+    const resultJson = {
+        result : `${isValid}`
+    }
+
+    res.json(resultJson);
+}
 
 
 
 export default {
     validateUser,
-    validateDuplicatedEmail
+    validateDuplicatedEmail,
+    validateDuplicatedNickname
 };

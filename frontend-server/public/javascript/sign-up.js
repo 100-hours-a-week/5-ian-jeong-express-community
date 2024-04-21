@@ -230,21 +230,11 @@ nicknameInput.addEventListener("blur", async function(event) {
 
 
 // 백엔드 서버로 요청 넣어서 중복 여부 확인
-function validateDuplicateNickname(nickname, flag) {
-    const obj = {nickname : `${nicname}`};
-
-    const data = {
-        method: 'POST', // get요청은 캐싱될 수 있고, 검증 부분이 캐싱되면 좋지 않으므로 post요청
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(obj)
-    };
-
-    fetch('localhost:back-end port/users/nickname', data)
+async function validateDuplicateNickname(nickname, flag) {
+    await fetch(`http://localhost:8081/users/nickname?nickname=${nickname}`)
         .then(isDuplicated => isDuplicated.json())
         .then(isDuplicatedJson => {
-            if(isDuplicatedJson.result) {
+            if(isDuplicatedJson.result === "true") {
                 flag['flag'] = true;
             }
        });

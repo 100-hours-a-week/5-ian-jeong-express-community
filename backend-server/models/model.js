@@ -31,9 +31,23 @@ function validateDuplicatedEmail(email) {
     return true;
 }
 
+function validateDuplicatedNickname(nickname) {
+    const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
+    const usersJsonData = JSON.parse(usersJsonFile);
+
+    for (let i = 0; i < usersJsonData.length; i++) {
+        let user = usersJsonData[i];
+        if (user.nickname === nickname) {
+            return false;
+        }
+    }
+    
+    return true;
+}
 
 
 export default {
     validateUser,
-    validateDuplicatedEmail
+    validateDuplicatedEmail,
+    validateDuplicatedNickname
 };
