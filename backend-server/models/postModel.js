@@ -76,7 +76,26 @@ function deletePost(postId) {
 
     const deletedJsonData = JSON.stringify(filteredData);
 
-    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), deletedJsonData);
+    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), deletedJsonData, 'utf8');
+}
+
+
+function updatePost(post) {
+    // Id로 기존 포스트에서 작성자 아이디 가져와서 붙여주고 나머지 
+    // 아이디, 작성자아이디, 타이틀, 타임, 이미지, 컨텐트, 라이크,히츠, 코멘츠 붙이고 업데이트 ㄱㄱ
+    const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
+    const postsJsonData = JSON.parse(postsJsonFile);
+
+    postsJsonData[post.id-1].title = post.title;
+    postsJsonData[post.id-1].content = post.content;
+    
+
+    // postsJsonData[post.id].image =  이미지 수정 생략
+    const result = JSON.stringify(postsJsonData);
+    
+
+
+    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), result);
 }
 
 
@@ -85,5 +104,6 @@ export default {
     createPost,
     getPost,
     getComments,
-    deletePost
+    deletePost,
+    updatePost
 };

@@ -4,6 +4,16 @@ document.addEventListener('keydown', function(event) { // 엔터키 폼 전송 �
     };
 }, true);
 
+const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
+
+document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+    window.location.href=`/users/${userId}/edit`;
+});
+
+document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+    window.location.href=`/users/${userId}/password`;
+})
+
 
 
 const profileImg = document.getElementById("profile-img"); // 프로필 이미지 클릭 시 드롭 박스 노출
@@ -25,7 +35,7 @@ document.addEventListener('click', function(event) { // 드롭 박스 히든
 });
 
 
-const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
+
 
 document.getElementById('user-edit-btn').addEventListener('click', function(event) {
     window.location.href=`/users/${userId}/edit`;
@@ -40,7 +50,6 @@ document.getElementById('password-edit-btn').addEventListener('click', function(
 fetch(`http://localhost:8081/users/${userId}`)
     .then(userData => userData.json())
     .then(userJson => {
-            console.log(userJson);
             document.getElementById("profile-img").src = userJson.profileImage;
     })
 
@@ -74,6 +83,10 @@ var currentUrl = window.location.href;
 var urlParams = currentUrl.split('/');
 const postId = urlParams[urlParams.length - 1]; 
 
+document.getElementById('edit-btn').addEventListener('click', function(event) {
+    window.location.href=`/posts/${postId}/edit`;
+})
+
 
 const modalDelete = document.getElementById("modal-delete"); // 게시글 삭제 모달 창에서 삭제 이벤트
 
@@ -98,7 +111,7 @@ modalDelete.addEventListener('click', function(event) {
 
 
 fetch(`http://localhost:8081/posts/${postId}`) // 해당 포스트 데이터 세팅
-    .then(postData => postData.json())
+    .then(postData => postData.json()) 
     .then(postJson => {
             let postTitle = document.getElementById("post-title");
             postTitle.textContent = postJson.title;

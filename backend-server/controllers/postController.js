@@ -36,9 +36,22 @@ function getComments(req, res) {
 }
 
 function deletePost(req, res) {
-    model.deletePost(req.params.postId);
+    model.deletePost(req.params.postId);   
+}
 
-    
+
+function updatePost(req, res) {
+    const post = {
+        id: parseInt(req.params.postId),
+        title : req.body.title,
+        content : req.body.content,
+        image : req.body.image
+    }
+    console.log(post);
+
+    model.updatePost(post); // 여기 할 차례
++
+    res.redirect(`http://localhost:8080/posts/${post.id}`);
 }
 
 
@@ -49,5 +62,6 @@ export default {
     createPost,
     getPost,
     getComments,
-    deletePost
+    deletePost,
+    updatePost
 };

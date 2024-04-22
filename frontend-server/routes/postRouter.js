@@ -17,7 +17,6 @@ router.get('/:postId', (req, res) => {
     res.sendFile(path.join(__dirname, '/view/post-detail.html'));
 });
 
-
 router.get('/:postId/edit', (req, res) => {
     res.sendFile(path.join(__dirname, 'view/edit-post.html'));
 });
