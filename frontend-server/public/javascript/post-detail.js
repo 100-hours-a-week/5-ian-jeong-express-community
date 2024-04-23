@@ -133,42 +133,63 @@ function makeShortNumber(number) { // 조회수와 댓글 천 단위 넘어가�
 
 
 const commentInput = document.getElementById("comment-input"); 
+const addCommentBtn = document.getElementById("add-comment-btn");
+
 commentInput.addEventListener('input', function(event) { // 댓글입력창 이벤트
     const value = event.target.value;
 
     if(value) {
-        const addCommentBtn = document.getElementById("add-comment-btn");
         addCommentBtn.style.backgroundColor = "#7F6AEE";
         addCommentBtn.disabled = false;
     } else {
-        const addCommentBtn = document.getElementById("add-comment-btn");
         addCommentBtn.style.backgroundColor = "#ACA0EB";
         addCommentBtn.disabled = true;
     }
 })
 
 
-const addCommentBtn = document.getElementById("add-comment-btn");
 addCommentBtn.addEventListener('click', async function(event) { // 댓글 추가
-    const commentInput = document.getElementById('comment-input');
 
-    const obj = {
-        postId : `${postId}`,
-        writer : `${userId}`,
-        text : `${commentInput.value}`
+    if (addCommentBtn.textContent === "댓글 수정") {
+        const obj = {
+            text : `${commentInput.value}`
+        }
+            
+        const data = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }
+
+        fetch(`http://localhost:8081/posts/${postId}/comments/${addCommentBtn.getAttribute("data-id")}`, data); 
+        window.location.href= `/posts/${postId}`;
+        
+
+    } else {
+        const obj = {
+            postId : `${postId}`,
+            writer : `${userId}`,
+            text : `${commentInput.value}`
+        }
+
+        const data = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        }
+    
+        fetch(`http://localhost:8081/posts/${postId}/comments`, data); // 댓글 추가 post요청, 리다이렉트 되도록
+        window.location.href= `/posts/${postId}`; // 추가 후 목록 페이지로 리다이렉트
     }
 
-    const data = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(obj)
-    }
-
-    fetch(`http://localhost:8081/posts/${postId}/comments`, data); // 댓글 추가 post요청, 리다이렉트 되도록
-    window.location.href= `/posts/${postId}`; // 추가 후 목록 페이지로 리다이렉트
 });
+
+
+
 
 
 
@@ -243,35 +264,17 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
 
 
             // 댓글 PATCH 기능 추가해야함
-            writerEditBtn.addEventListener('click', function() {  
+            writerEditBtn.addEventListener('click', async function() {  
+                
+                // 버튼 글자 바꾸고 포스트아이디 유저아이디는 고정
+                // 댓글 텍스트로 patch할지 
                 const comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
                 const contentInput = comment.querySelector('.content-info'); // 해당 댓글 내용 입력 필드를 찾음
-                
-                    
-                contentInput.readOnly = false; // contentInput을 통해 댓글 내용 수정 가능
-                contentInput.style.border = "1px solid rgba(0,0,0,0.5)";
-
 
                 
-                contentInput.addEventListener("blur", function(event) {
-                    contentInput.readOnly = true;
-                    contentInput.style.border = "none";
-
-                    const obj = {
-                        text : `${contentInput.value}`
-                    }
-            
-                    const data = {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(obj)
-                    }
-            
-                    fetch(`http://localhost:8081/posts/${postId}/comments/${comment.id}`, data); 
-                });
-
+                addCommentBtn.textContent = "댓글 수정";
+                addCommentBtn.setAttribute("data-id", comment.id);
+                commentInput.value = contentInput.value;
             });
                 
                 

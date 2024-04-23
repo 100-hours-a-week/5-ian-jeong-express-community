@@ -18,8 +18,8 @@ function getPosts() {
 function createPost(newPost) {
     const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
-
-    let newPostId = postsJsonData.length + 1;
+    // 게시글 아이디 부여 문제 해결 하고 다시 노션 작성
+    let newPostId = parseInt(postsJsonData[postsJsonData.length-1].id) + 1;
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().replace('T', ' ').split('.')[0];
 
@@ -29,7 +29,7 @@ function createPost(newPost) {
         title: newPost.title,
         image: newPost.image,
         time: formattedDate,
-        content: newPost.contnet,
+        content: newPost.content,
         likes : 0,
         hits: 0,
         comments: 0
@@ -39,7 +39,7 @@ function createPost(newPost) {
 
     const newPostsJson = JSON.stringify(postsJsonData);
     
-    fs.writeFileSync(__dirname + '/models/posts.json', newPostsJson,'utf8');
+    fs.writeFileSync(__dirname + '/models/posts.json', newPostsJson, 'utf8');
 }
 
 
@@ -52,6 +52,19 @@ function getPost(postId) {
     for (let i = 0; i < postsJsonData.length; i++) {
         let post = postsJsonData[i];
         if (post.id === parseInt(postId)) {
+
+            const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
+            const commentsJsonData = JSON.parse(commentsJsonFile);
+            var count = 0;
+            for (let j = 0; j < commentsJsonData.length; j++) {
+                if (post.id === commentsJsonData[j].postId) {
+                    count++;
+                }
+            }
+            postsJsonData[i].comments = count;
+            fs.writeFileSync(path.join(__dirname, '/models/posts.json'), JSON.stringify(postsJsonData), 'utf8');
+            post = postsJsonData[i];
+
             return post;
         }
     }
@@ -75,7 +88,7 @@ function deletePost(postId) {
 
 
     const deletedJsonData = JSON.stringify(filteredData);
-
+    // 나중에 댓글도 지워야함
     fs.writeFileSync(path.join(__dirname, '/models/posts.json'), deletedJsonData, 'utf8');
 }
 
@@ -86,8 +99,13 @@ function updatePost(post) {
     const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
 
-    postsJsonData[post.id-1].title = post.title;
-    postsJsonData[post.id-1].content = post.content;
+
+    for (let i = 0; i < postsJsonData.length; i++) {
+        if (parseInt(post.id) === parseInt(postsJsonData[i].id)) {
+            postsJsonData[i].title = post.title;
+            postsJsonData[i].content = post.content;
+        } 
+    }
     
 
     // postsJsonData[post.id].image =  이미지 수정 생략
@@ -103,7 +121,7 @@ function createComment(newComment) {
     const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
 
-    let newCommentId = commentsJsonData.length + 1;
+    let newCommentId = parseInt(commentsJsonData[commentsJsonData.length-1].id) + 1;
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().replace('T', ' ').split('.')[0];
 
@@ -121,16 +139,6 @@ function createComment(newComment) {
     const newCommentsJson = JSON.stringify(commentsJsonData);
     
     fs.writeFileSync(__dirname + '/models/comments.json', newCommentsJson,'utf8');
-
-
-    // postid에 있는 댓글 수 ++ 해야함
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
-    const postsJsonData = JSON.parse(postsJsonFile);
-    postsJsonData[parseInt(newComment.postId)-1].comments = 1 + parseInt(postsJsonData[parseInt(newComment.postId)-1].comments); 
-
-    const result = JSON.stringify(postsJsonData);
-    
-    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), result);
 }
 
 
@@ -142,25 +150,21 @@ function deleteComment(postId, commentId) {
     const deletedJsonData = JSON.stringify(filteredData);
 
     fs.writeFileSync(path.join(__dirname, '/models/comments.json'), deletedJsonData, 'utf8');
-
-
-    
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
-    const postsJsonData = JSON.parse(postsJsonFile);
-    postsJsonData[parseInt(postId)-1].comments = parseInt(postsJsonData[parseInt(postId)-1].comments) - 1; 
-
-    const result = JSON.stringify(postsJsonData);
-    
-    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), result);
 }
+
 
 function updateComment(comment) {
     const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
 
-    commentsJsonData[parseInt(comment.id)-1].text = comment.text
     
-    
+    for (let i = 0; i < commentsJsonData.length; i++) {
+        if(parseInt(commentsJsonData[i].id) === parseInt(comment.id)) {
+            commentsJsonData[i].text = comment.text;
+        }
+    }
+
+
 
     // postsJsonData[post.id].image =  이미지 수정 생략
     const result = JSON.stringify(commentsJsonData);

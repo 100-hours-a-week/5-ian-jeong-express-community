@@ -314,6 +314,24 @@ header {
     margin: 8px;
     font-size: 16px;
     font-weight: 700;
+
+    cursor: pointer;
+}
+
+#edit-comment-btn {
+    width: 139px;
+    height: 39px;
+    background-color: #ACA0EB;
+    border-radius: 16px;
+    border: none;
+    color: white;
+    margin: 8px;
+    font-size: 16px;
+    font-weight: 700;
+
+    position: absolute;
+    display:none;
+    cursor: pointer;
 }
 
 

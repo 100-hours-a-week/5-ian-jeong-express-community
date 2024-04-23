@@ -50,7 +50,7 @@ function createUser(newUser) {
     const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
-    let newUserId = usersJsonData.length + 1;
+    let newUserId = parseInt(usersJsonData[usersJsonData.length-1].id) + 1;
 
     const user = {
         id: newUserId,
