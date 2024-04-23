@@ -99,11 +99,49 @@ function updatePost(post) {
 }
 
 
+function createComment(newComment) {
+    const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
+    const commentsJsonData = JSON.parse(commentsJsonFile);
+
+    let newCommentId = commentsJsonData.length + 1;
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().replace('T', ' ').split('.')[0];
+
+    const post = {
+        id: newCommentId,
+        postId: parseInt(newComment.postId),
+        writer: parseInt(newComment.writer),
+        time: formattedDate,
+        text: newComment.text
+    };
+
+
+    commentsJsonData.push(post);
+
+    const newCommentsJson = JSON.stringify(commentsJsonData);
+    
+    fs.writeFileSync(__dirname + '/models/comments.json', newCommentsJson,'utf8');
+
+
+    // postid에 있는 댓글 수 ++ 해야함
+    const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
+    const postsJsonData = JSON.parse(postsJsonFile);
+    postsJsonData[parseInt(newComment.postId)-1].comments = 1 + parseInt(postsJsonData[parseInt(newComment.postId)-1].comments); 
+
+    const result = JSON.stringify(postsJsonData);
+    
+    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), result);
+}
+
+
+
+
 export default {
     getPosts,
     createPost,
     getPost,
     getComments,
     deletePost,
-    updatePost
+    updatePost,
+    createComment
 };

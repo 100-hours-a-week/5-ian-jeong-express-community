@@ -1,32 +1,20 @@
-document.addEventListener('keydown', function(event) { // 엔터키 폼 전송 방지
-    if (event.keyCode === 13) {
-      event.preventDefault();
-    };
-}, true);
 
+
+
+const currentUrl = window.location.href;
+const urlParams = currentUrl.split('/');
+
+const postId = urlParams[urlParams.length - 1]; 
 const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
 
-document.getElementById('user-edit-btn').addEventListener('click', function(event) {
-    window.location.href=`/users/${userId}/edit`;
-});
-
-document.getElementById('password-edit-btn').addEventListener('click', function(event) {
-    window.location.href=`/users/${userId}/password`;
-})
-
-
-
 const profileImg = document.getElementById("profile-img"); // 프로필 이미지 클릭 시 드롭 박스 노출
+const dropBox = document.getElementById("drop-down-box");
+
 profileImg.addEventListener("click", function() {
-    const dropBox = document.getElementById("drop-down-box");
     dropBox.style.visibility = "visible";
 });
 
-
-
 document.addEventListener('click', function(event) { // 드롭 박스 히든
-    const dropBox = document.getElementById("drop-down-box");
-    const profileImg = document.getElementById("profile-img");
     const clickedElement = event.target;
 
     if (clickedElement !== profileImg) {
@@ -34,73 +22,57 @@ document.addEventListener('click', function(event) { // 드롭 박스 히든
     }
 });
 
-
-
-
 document.getElementById('user-edit-btn').addEventListener('click', function(event) {
     window.location.href=`/users/${userId}/edit`;
 });
 
 document.getElementById('password-edit-btn').addEventListener('click', function(event) {
     window.location.href=`/users/${userId}/password`;
-})
-
-
+});
 
 fetch(`http://localhost:8081/users/${userId}`)
     .then(userData => userData.json())
     .then(userJson => {
             document.getElementById("profile-img").src = userJson.profileImage;
-    })
+    });
+
+
+
+
+document.getElementById('edit-btn').addEventListener('click', function(event) { // 게시글 편집 페이지 이동 이벤트
+    window.location.href=`/posts/${postId}/edit`;
+});
 
 
 
 const deleteBtn = document.getElementById("delete-btn"); // 게시글 삭제 버튼 이벤트
-deleteBtn.addEventListener('click', function(event) {
-    const modalBack = document.getElementById("modal-back");
-    modalBack.style.visibility = "visible";
-    
+const modalBack = document.getElementById("modal-back");
+const modal = document.getElementById("modal");
+const modalCancel = document.getElementById("modal-cancel"); // 게시글 삭제 모달 창에서 취소 이벤트 
+const modalDelete = document.getElementById("modal-delete"); // 게시글 삭제 모달 창에서 삭제 이벤트
 
-    const modal = document.getElementById("modal");
+deleteBtn.addEventListener('click', function(event) {
+    modalBack.style.visibility = "visible";
     modal.style.visibility = "visible";
 
     document.body.overflow = 'hidden';
 });
 
-const modalCancel = document.getElementById("modal-cancel"); // 게시글 삭제 모달 창에서 취소 이벤트 
 modalCancel.addEventListener('click', function(event) {
-    const modalBack = document.getElementById("modal-back");
     modalBack.style.visibility = "hidden";
-    
-    const modal = document.getElementById("modal");
     modal.style.visibility = "hidden";
 
-    
     document.body.style.overflow = "visible";
 });
-
-var currentUrl = window.location.href;
-var urlParams = currentUrl.split('/');
-const postId = urlParams[urlParams.length - 1]; 
-
-document.getElementById('edit-btn').addEventListener('click', function(event) {
-    window.location.href=`/posts/${postId}/edit`;
-})
-
-
-const modalDelete = document.getElementById("modal-delete"); // 게시글 삭제 모달 창에서 삭제 이벤트
-
-
-
-
-
 
 modalDelete.addEventListener('click', function(event) {
     fetch(`http://localhost:8081/posts/${postId}`, {method: 'DELETE'});
     alert('해당 게시글이 삭제되었습니다!');
 
-    window.location.href= '/posts';
+    window.location.href= '/posts'; // 삭제 후 목록 페이지로 리다이렉트
 });
+
+
 
 
 
@@ -113,11 +85,10 @@ modalDelete.addEventListener('click', function(event) {
 fetch(`http://localhost:8081/posts/${postId}`) // 해당 포스트 데이터 세팅
     .then(postData => postData.json()) 
     .then(postJson => {
-            let postTitle = document.getElementById("post-title");
-            postTitle.textContent = postJson.title;
-                
-            
-            fetch(`http://localhost:8081/users/${postJson.writer}`)
+        const postTitle = document.getElementById("post-title");
+        postTitle.textContent = postJson.title;
+                    
+        fetch(`http://localhost:8081/users/${postJson.writer}`) // 해당 포스트 작성자 데이터 세팅
             .then(userData => userData.json())
             .then(userJson => {
                     let writer = document.getElementById("writer");
@@ -125,33 +96,24 @@ fetch(`http://localhost:8081/posts/${postId}`) // 해당 포스트 데이터 세
 
                     let postProfileImg = document.getElementById("post-profile-img");
                     postProfileImg.src = userJson.profileImage;
-                })
+                });
             
+        const time = document.getElementById("time");
+        time.textContent = postJson.time;
 
+        const postImage = document.getElementById("post-img");
+        postImage.src = postJson.image;
 
-            let time = document.getElementById("time");
-            time.textContent = postJson.time;
+        const postText = document.getElementById("post-text");
+        postText.textContent = postJson.content;
 
-            let postImage = document.getElementById("post-img");
-            postImage.src = postJson.image;
+        const hitsNum = document.getElementById("hits-num");
+        hitsNum.textContent = makeShortNumber(parseInt(postJson.hits));
 
-            let postText = document.getElementById("post-text");
-            postText.textContent = postJson.content;
+        const commentsNum = document.getElementById("comments-num");
+        commentsNum.textContent = makeShortNumber(parseInt(postJson.comments));
 
-            let hitsNum = document.getElementById("hits-num");
-            hitsNum.textContent = makeShortNumber(parseInt(postJson.hits));
-
-            let commentsNum = document.getElementById("comments-num");
-            commentsNum.textContent = makeShortNumber(parseInt(postJson.comments));
-
-            });
-              
-    
-
-
-
-
-
+        });
 
 function makeShortNumber(number) { // 조회수와 댓글 천 단위 넘어가면 K 붙임
     if (number >= 1000) {
@@ -165,6 +127,9 @@ function makeShortNumber(number) { // 조회수와 댓글 천 단위 넘어가�
 
 
 
+
+
+
 const commentInput = document.getElementById("comment-input"); 
 commentInput.addEventListener('input', function(event) { // 댓글입력창 이벤트
     const value = event.target.value;
@@ -172,76 +137,38 @@ commentInput.addEventListener('input', function(event) { // 댓글입력창 이�
     if(value) {
         const addCommentBtn = document.getElementById("add-comment-btn");
         addCommentBtn.style.backgroundColor = "#7F6AEE";
-        addCommentBtn.disabled = true;
+        addCommentBtn.disabled = false;
     } else {
         const addCommentBtn = document.getElementById("add-comment-btn");
         addCommentBtn.style.backgroundColor = "#ACA0EB";
-        addCommentBtn.disabled = false;
+        addCommentBtn.disabled = true;
     }
 })
 
 
+const addCommentBtn = document.getElementById("add-comment-btn");
+addCommentBtn.addEventListener('click', async function(event) { // 댓글 추가
+    const commentInput = document.getElementById('comment-input');
 
+    const obj = {
+        postId : `${postId}`,
+        writer : `${userId}`,
+        text : `${commentInput.value}`
+    }
 
-// document.querySelectorAll('.writer-edit-btn').forEach(button => {
-//     button.addEventListener('click', function() {
-//         var comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
-//         var contentInput = comment.querySelector('.content-info'); // 해당 댓글 내용 입력 필드를 찾음
-//         // contentInput을 통해 댓글 내용 수정 가능
-//         contentInput.readOnly = false;
-//         contentInput.style.border = "1px solid rgba(0,0,0,0.5)";
+    const data = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+    }
 
-//         contentInput.addEventListener("blur", function(event) {
-//             contentInput.readOnly = true;
-//             contentInput.style.border = "none";
-//         })
-//     });
-// });
-
-
-// document.querySelectorAll('.writer-delete-btn').forEach(button => {
-//     button.addEventListener('click', function() {
-//         var comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
-//         var commentDeleteBtn = comment.querySelector('.writer-delete-btn'); // 해당 댓글 내용 입력 필드를 찾음
-        
-//         commentDeleteBtn.addEventListener('click', function(event) {
-//             const modalBack = document.getElementById("modal-back");
-//             // modalBack.style.visibility = "visible";
-    
-
-//             const commentModal = document.getElementById("comment-modal");
-//             // commentModal.style.visibility = "visible";
-//         });
-//     });
-// });
-
-
-
-
-
-const commentModalCancel = document.getElementById("comment-modal-cancel");
-commentModalCancel.addEventListener('click', function(event) { // 댓글 삭제 모달 창 내에서 취소
-    const modalBack = document.getElementById("modal-back");
-    modalBack.style.visibility = "hidden";
-    
-    const commentModal = document.getElementById("comment-modal");
-    commentModal.style.visibility = "hidden";
-
-    document.body.style.overflow = 'visible';
+    fetch(`http://localhost:8081/posts/${postId}/comments`, data); // 댓글 추가 post요청, 리다이렉트 되도록
+    window.location.href= `/posts/${postId}`; // 추가 후 목록 페이지로 리다이렉트
 });
 
-const commentModalDelete = document.getElementById("comment-modal-delete");
-commentModalDelete.addEventListener('click', function(event) { // 댓글 삭제 모달 창 내에서 삭제 
 
-    // 게시글 삭제하고 알림창 띄우고 post로 이동
-    alert('해당 댓글이 삭제되었습니다!');
-    const modalBack = document.getElementById("modal-back");
-    modalBack.style.visibility = "hidden";
-    
-    const commentModal = document.getElementById("comment-modal");
-    commentModal.style.visibility = "hidden";
-    document.body.style.overflow = 'visible';
-});
 
 
 
@@ -268,11 +195,10 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             const writerInfoIdDiv = document.createElement('div');
             writerInfoIdDiv.classList.add('writer-info-id');
 
-            fetch(`http://localhost:8081/users/${comment.writer}`)
+            fetch(`http://localhost:8081/users/${comment.writer}`) // 댓글 작성자 데이터 가져오기
                 .then(userData => userData.json())
                 .then(userJson => {
                     writerInfoImg.src = userJson.profileImage;
-
                     writerInfoIdDiv.textContent = userJson.nickname;
                 });
 
@@ -313,7 +239,9 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             commentDiv.appendChild(writerInfoBoxDiv);
             commentDiv.appendChild(btnInfoDiv);
 
-            writerEditBtn.addEventListener('click', function() { 
+
+            // 댓글 PATCH 기능 추가해야함
+            writerEditBtn.addEventListener('click', function() {  
                 var comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
                 var contentInput = comment.querySelector('.content-info'); // 해당 댓글 내용 입력 필드를 찾음
                         
@@ -328,6 +256,7 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             });
                 
                 
+            // 댓글 삭제 기능 추가해야함 
             writerDeleteBtn.addEventListener('click', function() {
                 var comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
                 var commentDeleteBtn = comment.querySelector('.writer-delete-btn'); // 해당 댓글 내용 입력 필드를 찾음
@@ -345,14 +274,34 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             });
                 
                 
-            
-            
-            
-
             document.body.appendChild(commentDiv);
                 
-            const padding = document.createElement('div');
-            padding.classList.add('padding');
-            document.body.appendChild(padding);
         })
     });
+
+
+
+
+const commentModalCancel = document.getElementById("comment-modal-cancel");
+commentModalCancel.addEventListener('click', function(event) { // 댓글 삭제 모달 창 내에서 취소
+    const modalBack = document.getElementById("modal-back");
+    modalBack.style.visibility = "hidden";
+        
+    const commentModal = document.getElementById("comment-modal");
+    commentModal.style.visibility = "hidden";
+    
+    document.body.style.overflow = 'visible';
+});
+    
+const commentModalDelete = document.getElementById("comment-modal-delete");
+commentModalDelete.addEventListener('click', function(event) { // 댓글 삭제 모달 창 내에서 삭제 
+    
+// 게시글 삭제하고 알림창 띄우고 post로 이동
+    alert('해당 댓글이 삭제되었습니다!');
+    const modalBack = document.getElementById("modal-back");
+    modalBack.style.visibility = "hidden";
+        
+    const commentModal = document.getElementById("comment-modal");
+    commentModal.style.visibility = "hidden";
+    document.body.style.overflow = 'visible';
+});

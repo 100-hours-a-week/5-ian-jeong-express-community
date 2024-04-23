@@ -26,3 +26,7 @@ router.get('/:postId/password', (req, res) => {
 });
 
 export default router;
+
+
+
+

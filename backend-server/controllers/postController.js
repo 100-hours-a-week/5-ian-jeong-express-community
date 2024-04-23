@@ -47,13 +47,23 @@ function updatePost(req, res) {
         content : req.body.content,
         image : req.body.image
     }
-    console.log(post);
 
     model.updatePost(post); // 여기 할 차례
 +
     res.redirect(`http://localhost:8080/posts/${post.id}`);
 }
 
+function createComment(req, res) {
+
+    const newComment = {
+        postId: req.body.postId,
+        writer : req.body.writer,
+        title : req.body.title,
+        text : req.body.text
+    }
+
+    model.createComment(newComment);
+}
 
 
 
@@ -63,5 +73,6 @@ export default {
     getPost,
     getComments,
     deletePost,
-    updatePost
+    updatePost,
+    createComment
 };
