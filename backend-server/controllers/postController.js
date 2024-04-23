@@ -69,6 +69,15 @@ function deleteComment(req, res) {
     model.deleteComment(req.params.postId, req.params.commentId);   
 }
 
+function updateComment(req, res) {
+    const comment = {
+        id: parseInt(req.params.commentId),
+        text : req.body.text
+    }
+
+    model.updateComment(comment); // 여기 할 차례
+}
+
 
 export default {
     getPosts,
@@ -78,5 +87,6 @@ export default {
     deletePost,
     updatePost,
     createComment,
-    deleteComment
+    deleteComment,
+    updateComment
 };

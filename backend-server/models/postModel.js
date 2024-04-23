@@ -154,6 +154,20 @@ function deleteComment(postId, commentId) {
     fs.writeFileSync(path.join(__dirname, '/models/posts.json'), result);
 }
 
+function updateComment(comment) {
+    const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
+    const commentsJsonData = JSON.parse(commentsJsonFile);
+
+    commentsJsonData[parseInt(comment.id)-1].text = comment.text
+    
+    
+
+    // postsJsonData[post.id].image =  이미지 수정 생략
+    const result = JSON.stringify(commentsJsonData);
+    
+    fs.writeFileSync(path.join(__dirname, '/models/comments.json'), result, 'utf8');
+}
+
 
 
 
@@ -165,5 +179,6 @@ export default {
     deletePost,
     updatePost,
     createComment,
-    deleteComment
+    deleteComment,
+    updateComment
 };

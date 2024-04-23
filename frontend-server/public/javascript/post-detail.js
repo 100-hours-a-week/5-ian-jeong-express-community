@@ -244,21 +244,37 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
 
             // 댓글 PATCH 기능 추가해야함
             writerEditBtn.addEventListener('click', function() {  
-                var comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
-                var contentInput = comment.querySelector('.content-info'); // 해당 댓글 내용 입력 필드를 찾음
-                        
+                const comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
+                const contentInput = comment.querySelector('.content-info'); // 해당 댓글 내용 입력 필드를 찾음
+                
+                    
                 contentInput.readOnly = false; // contentInput을 통해 댓글 내용 수정 가능
                 contentInput.style.border = "1px solid rgba(0,0,0,0.5)";
+
 
                 
                 contentInput.addEventListener("blur", function(event) {
                     contentInput.readOnly = true;
                     contentInput.style.border = "none";
-                })
+
+                    const obj = {
+                        text : `${contentInput.value}`
+                    }
+            
+                    const data = {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(obj)
+                    }
+            
+                    fetch(`http://localhost:8081/posts/${postId}/comments/${comment.id}`, data); 
+                });
+
             });
                 
                 
-            // 댓글 삭제 기능 추가해야함 
             writerDeleteBtn.addEventListener('click', function() {
                 var comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
                 var commentDeleteBtn = comment.querySelector('.writer-delete-btn'); // 해당 댓글 내용 입력 필드를 찾음
