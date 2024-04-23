@@ -81,7 +81,6 @@ function getUser(userId) {
 
 
 function updateUser(user) {
-    console.log(user);
     const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
@@ -145,6 +144,17 @@ function deleteUser(userId) {
     fs.writeFileSync(path.join(__dirname, '/models/posts.json'), deletedJsonData, 'utf8');
 }
 
+function updateUserPassword(user) {
+    const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
+    const usersJsonData = JSON.parse(usersJsonFile);
+
+    usersJsonData[parseInt(user.id)-1].password = user.password;
+    
+    const result = JSON.stringify(usersJsonData);
+    
+    fs.writeFileSync(path.join(__dirname, '/models/users.json'), result, 'utf8');
+}
+
 
 export default {
     validateUser,
@@ -153,5 +163,6 @@ export default {
     createUser,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateUserPassword
 };

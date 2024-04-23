@@ -39,6 +39,11 @@ document.getElementById('password-edit-btn').addEventListener('click', function(
 
 
 
+
+
+
+
+
 var userNickname;
 const nicknameInput = document.getElementById("nickname-edit");
 

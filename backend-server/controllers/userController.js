@@ -77,6 +77,16 @@ function deleteUser(req, res) {
     model.deleteUser(req.params.userId);
 }
 
+function updateUserPassword(req, res) {
+    const user = {
+        id: parseInt(req.params.userId),
+        password: req.body.password
+    }
+    
+    model.updateUserPassword(user); // 여기 할 차례
+    res.redirect(`http://localhost:8080/users/${user.id}/password`);
+}
+
 
 export default {
     validateUser,
@@ -85,5 +95,6 @@ export default {
     createUser,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateUserPassword
 };
