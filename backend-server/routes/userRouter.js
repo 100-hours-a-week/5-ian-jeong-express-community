@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import userController from './../controllers/userController.js';
 
 
@@ -13,6 +12,8 @@ router.get('/email', userController.validateDuplicatedEmail);
 router.get('/nickname', userController.validateDuplicatedNickname);
 
 router.get('/:userId', userController.getUser);
+router.patch('/:userId', userController.updateUser)
+router.delete('/:userId', userController.deleteUser)
 
 
 

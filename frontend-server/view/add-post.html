@@ -15,9 +15,10 @@
 
             <div id="drop-down-box">
 
-                <button id="user-edit-btn" class="drop-down" onClick="location.href='edit-user'">회원정보 수정</button>
-                <button id="password-edit-btn" class="drop-down" onClick="location.href='edit-password'">비밀번호 수정</button>
-                <button id="logout-btn" class="drop-down" onClick="location.href='sign-in'">로그아웃</button>
+                
+                <button id="user-edit-btn" class="drop-down">회원정보 수정</button>
+                <button id="password-edit-btn" class="drop-down">비밀번호 수정</button>
+                <button id="logout-btn" class="drop-down" onClick="location.href='/users/sign-in'">로그아웃</button>
 
             </div>
         </div>
@@ -63,7 +64,7 @@
             <div id="image-selection-text">
                 이미지
             </div>
-            <input type="file" id="file-input" name="image">
+            <input type="file" id="file-input" name="image" accept="image/*" onchange="addImage(event)">
         </div>
         
         <button id="complete-btn">완료</button>

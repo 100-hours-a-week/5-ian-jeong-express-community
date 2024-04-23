@@ -25,7 +25,7 @@ if(dropBox.style.visibility === "visible") {
 }
 
 document.getElementById('user-edit-btn').addEventListener('click', function(event) {
-    window.location.href=`/users/${userId}/edit`;
+    window.location.href=`/users/${userId}`;
 });
 
 document.getElementById('password-edit-btn').addEventListener('click', function(event) {

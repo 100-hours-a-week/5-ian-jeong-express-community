@@ -13,7 +13,7 @@ router.get('/sign-up', (req, res) => {
     res.sendFile(path.join(__dirname, 'view/sign-up.html'));
 });
 
-router.get('/:userId/edit', (req, res) => {
+router.get('/:userId', (req, res) => {
     res.sendFile(path.join(__dirname, 'view/edit-user.html'));
 });
 

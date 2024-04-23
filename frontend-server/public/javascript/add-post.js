@@ -22,6 +22,15 @@ document.addEventListener('click', function(event) {
     }
 });
 
+document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+    window.location.href=`/users/${userId}`;
+});
+
+document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+    window.location.href=`/users/${userId}/password`;
+});
+
+
 
 const userId = 1;
 
@@ -94,6 +103,31 @@ postInput.addEventListener("blur", function(event) {
         completeBtn.style.backgroundColor = '#7F6AEE';
     }
 });
+
+
+function addImage(event) {
+    const file = event.target.files[0]; // 선택한 파일 가져오기
+    
+    if (file) { // 파일이 있다면
+        const reader = new FileReader();
+
+        reader.onload = function(e) { // Reader 에 이벤트 핸들러 할당
+            document.getElementById("file-input").value = e.target.result;
+        }
+        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환, 변환 완료 되면 reader가 가진 이벤트 발생 
+    
+        return;
+    } 
+
+    document.getElementById("file-input").value = "";
+}
+
+
+
+
+
+
+
 
 
 // 버튼 누를 때마다 검증 진행하고 이때 조건 안되면 헬퍼텍스트 노출

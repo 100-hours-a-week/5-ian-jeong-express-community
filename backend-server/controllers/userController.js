@@ -61,11 +61,29 @@ function getUser(req, res) {
     res.json(user);
 }
 
+function updateUser(req, res) {
+
+    const user = {
+        id: parseInt(req.params.userId),
+        nickname: req.body.nickname,
+        profileImage: req.body.profileImage
+    }
+
+    model.updateUser(user); // 여기 할 차례
+    res.redirect(`http://localhost:8080/users/${user.id}`);
+}
+
+function deleteUser(req, res) {
+    model.deleteUser(req.params.userId);
+}
+
 
 export default {
     validateUser,
     validateDuplicatedEmail,
     validateDuplicatedNickname,
     createUser,
-    getUser
+    getUser,
+    updateUser,
+    deleteUser
 };

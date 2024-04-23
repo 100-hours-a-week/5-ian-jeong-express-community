@@ -7,6 +7,7 @@ function addImage(event) {
 
         reader.onload = function(e) { // Reader 에 이벤트 핸들러 할당
             preview.src = e.target.result; 
+            document.getElementById("profile-circle").value = preview.src;
         }
         reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환, 변환 완료 되면 reader가 가진 이벤트 발생 
     
@@ -16,6 +17,7 @@ function addImage(event) {
     } 
 
     preview.src = "";
+    document.getElementById("profile-circle").value = "";
     document.getElementById("profile-helper-text").style.visibility = "visible";
 }
 

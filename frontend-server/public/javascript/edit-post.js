@@ -84,6 +84,25 @@ fetch(`http://localhost:8081/posts/${postId}`)
         let postImage = document.getElementById("image-file");
         postImage.textContent = `기존 이미지 ${postJson.image}`;
         
+        let image = document.getElementById("image-selection");
+        image.value = postJson.image;
     });
 
 
+function addImage(event) {
+    const file = event.target.files[0]; // 선택한 파일 가져오기
+        
+    if (file) { // 파일이 있다면
+        const reader = new FileReader();
+    
+        reader.onload = function(e) { // Reader 에 이벤트 핸들러 할당
+            document.getElementById("image-selection").value = e.target.result;
+        }
+        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환, 변환 완료 되면 reader가 가진 이벤트 발생 
+        
+        return;
+    } 
+    
+    document.getElementById("file-input").value = "";
+}
+    

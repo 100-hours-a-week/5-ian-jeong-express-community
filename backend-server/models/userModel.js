@@ -80,7 +80,31 @@ function getUser(userId) {
 }
 
 
+function updateUser(user) {
+    console.log(user);
+    const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
+    const usersJsonData = JSON.parse(usersJsonFile);
 
+    usersJsonData[parseInt(user.id)-1].nickname = user.nickname;
+    usersJsonData[parseInt(user.id)-1].profileImage = user.profileImage;
+    
+    
+
+    // postsJsonData[post.id].image =  이미지 수정 생략
+    const result = JSON.stringify(usersJsonData);
+    
+    fs.writeFileSync(path.join(__dirname, '/models/users.json'), result, 'utf8');
+}
+
+function deleteUser(userId) {
+    const usersJsonFile = fs.readFileSync(__dirname + '/models/users.json', 'utf8');
+    const usersJsonData = JSON.parse(usersJsonFile);
+    const filteredData = usersJsonData.filter(user => user.id !== parseInt(userId));
+
+    const deletedJsonData = JSON.stringify(filteredData);
+
+    fs.writeFileSync(path.join(__dirname, '/models/comments.json'), deletedJsonData, 'utf8');
+}
 
 
 export default {
@@ -88,5 +112,7 @@ export default {
     validateDuplicatedEmail,
     validateDuplicatedNickname,
     createUser,
-    getUser
+    getUser,
+    updateUser,
+    deleteUser
 };
