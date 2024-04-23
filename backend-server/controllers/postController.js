@@ -65,6 +65,9 @@ function createComment(req, res) {
     model.createComment(newComment);
 }
 
+function deleteComment(req, res) {
+    model.deleteComment(req.params.postId, req.params.commentId);   
+}
 
 
 export default {
@@ -74,5 +77,6 @@ export default {
     getComments,
     deletePost,
     updatePost,
-    createComment
+    createComment,
+    deleteComment
 };

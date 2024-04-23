@@ -134,6 +134,27 @@ function createComment(newComment) {
 }
 
 
+function deleteComment(postId, commentId) {
+    const commentsJsonFile = fs.readFileSync(__dirname + '/models/comments.json', 'utf8');
+    const commentsJsonData = JSON.parse(commentsJsonFile);
+    const filteredData = commentsJsonData.filter(comment => comment.id !== parseInt(commentId));
+
+    const deletedJsonData = JSON.stringify(filteredData);
+
+    fs.writeFileSync(path.join(__dirname, '/models/comments.json'), deletedJsonData, 'utf8');
+
+
+    
+    const postsJsonFile = fs.readFileSync(__dirname + '/models/posts.json', 'utf8');
+    const postsJsonData = JSON.parse(postsJsonFile);
+    postsJsonData[parseInt(postId)-1].comments = parseInt(postsJsonData[parseInt(postId)-1].comments) - 1; 
+
+    const result = JSON.stringify(postsJsonData);
+    
+    fs.writeFileSync(path.join(__dirname, '/models/posts.json'), result);
+}
+
+
 
 
 export default {
@@ -143,5 +164,6 @@ export default {
     getComments,
     deletePost,
     updatePost,
-    createComment
+    createComment,
+    deleteComment
 };

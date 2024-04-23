@@ -14,13 +14,15 @@ profileImg.addEventListener("click", function() {
     dropBox.style.visibility = "visible";
 });
 
-document.addEventListener('click', function(event) { // 드롭 박스 히든
-    const clickedElement = event.target;
-
-    if (clickedElement !== profileImg) {
-        dropBox.style.visibility = "hidden";
-    }
-});
+if(dropBox.style.visibility === "visible") {
+    document.addEventListener('click', function(event) { // 드롭 박스 히든
+        const clickedElement = event.target;
+    
+        if (clickedElement !== profileImg) {
+            dropBox.style.visibility = "hidden";
+        }
+    });
+}
 
 document.getElementById('user-edit-btn').addEventListener('click', function(event) {
     window.location.href=`/users/${userId}/edit`;
@@ -268,6 +270,7 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
                 
                     const commentModal = document.getElementById("comment-modal");
                     commentModal.style.visibility = "visible";
+                    commentModal.setAttribute("data-id", comment.id);
 
                     document.body.style.overflow = "hidden";
                 });
@@ -289,19 +292,21 @@ commentModalCancel.addEventListener('click', function(event) { // 댓글 삭제 
         
     const commentModal = document.getElementById("comment-modal");
     commentModal.style.visibility = "hidden";
-    
     document.body.style.overflow = 'visible';
 });
     
 const commentModalDelete = document.getElementById("comment-modal-delete");
-commentModalDelete.addEventListener('click', function(event) { // 댓글 삭제 모달 창 내에서 삭제 
-    
-// 게시글 삭제하고 알림창 띄우고 post로 이동
-    alert('해당 댓글이 삭제되었습니다!');
-    const modalBack = document.getElementById("modal-back");
-    modalBack.style.visibility = "hidden";
-        
+commentModalDelete.addEventListener('click', async function(event) { // 댓글 삭제 모달 창 내에서 삭제 
     const commentModal = document.getElementById("comment-modal");
+    const modalBack = document.getElementById("modal-back");
+    
+    fetch(`http://localhost:8081/posts/${postId}/comments/${commentModal.getAttribute("data-id")}`, {method: 'DELETE'});
+
+    // 게시글 삭제하고 알림창 띄우고 post로 이동
+    alert('해당 댓글이 삭제되었습니다!');
+    modalBack.style.visibility = "hidden";
     commentModal.style.visibility = "hidden";
     document.body.style.overflow = 'visible';
+
+    window.location.href= `/posts/${postId}`; // 추가 후 목록 페이지로 리다이렉트    
 });
