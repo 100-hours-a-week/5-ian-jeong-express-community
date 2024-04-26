@@ -13,6 +13,11 @@ const __dirname = path.resolve();
 app.use(express.static(__dirname + "/public")); 
 app.use(cors());
 
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view/index.html'));
+});
+
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
 

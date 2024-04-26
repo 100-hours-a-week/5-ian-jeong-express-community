@@ -4,7 +4,7 @@ async function validateSignIn(event) {
     const helperText = document.getElementById('helper-text'); 
 
 	if (!validateEmailFormat(email)) { 
-        helperText.style.visibility = 'visible'; // 헬퍼 텍스트 노출
+        helperText.style.visibility = 'visible'; 
         helperText.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
 
         return false;
@@ -17,7 +17,7 @@ async function validateSignIn(event) {
         return false;
     }
 
-    if(!validatePasswordFormat(password)) { // 포맷이 안맞는다면
+    if(!validatePasswordFormat(password)) {
         helperText.style.visibility = 'visible';
         helperText.textContent = "*비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포합해야 합니다.";
 
