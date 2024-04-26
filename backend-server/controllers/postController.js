@@ -1,5 +1,6 @@
 import model from '../models/postModel.js';
 
+
 function getPosts(req, res) {
     const postsJson = model.getPosts();
 
@@ -7,7 +8,6 @@ function getPosts(req, res) {
 }
 
 function createPost(req, res) {
-
     const newPost = {
         writer : 1,
         title : req.body.title,
@@ -17,11 +17,8 @@ function createPost(req, res) {
     
     model.createPost(newPost);
 
-    
-    
     res.redirect('http://localhost:8080/posts');
 }
-
 
 function getPost(req, res) {
     const post = model.getPost(req.params.postId);
@@ -48,13 +45,12 @@ function updatePost(req, res) {
         image : req.body.image
     }
 
-    model.updatePost(post); // 여기 할 차례
+    model.updatePost(post); 
 +
     res.redirect(`http://localhost:8080/posts/${post.id}`);
 }
 
 function createComment(req, res) {
-
     const newComment = {
         postId: req.body.postId,
         writer : req.body.writer,

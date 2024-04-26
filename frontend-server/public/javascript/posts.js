@@ -1,10 +1,10 @@
 const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
 
-document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+document.getElementById('user-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}`;
 });
 
-document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+document.getElementById('password-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/password`;
 })
 
@@ -12,12 +12,12 @@ document.getElementById('password-edit-btn').addEventListener('click', function(
 
 // 프로필 드롭다운 박스 
 const profileImg = document.getElementById("profile-img");
-profileImg.addEventListener("click", function() {
+profileImg.addEventListener("click", () => {
     const dropBox = document.getElementById("drop-down-box");
     dropBox.style.visibility = "visible";
 });
 
-document.addEventListener('click', function(event) {
+document.addEventListener('click', (event) => {
     const dropBox = document.getElementById("drop-down-box");
     const profileImg = document.getElementById("profile-img");
     const clickedElement = event.target;
@@ -124,7 +124,7 @@ fetch('http://localhost:8081/posts')
             
             document.body.appendChild(postBox);
 
-            postBox.addEventListener('click', function() {
+            postBox.addEventListener('click', () => {
                 window.location.href = `/posts/${postBox.id}`;
             });
         })

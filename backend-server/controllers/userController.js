@@ -1,5 +1,6 @@
 import model from '../models/userModel.js';
 
+
 function validateUser(req, res) {
     const email = req.body.email;
     const password = req.body.password;
@@ -35,8 +36,6 @@ function validateDuplicatedNickname(req, res) {
 }
 
 function createUser(req, res) {
-    // 하기전에, 유저 아이디 부여, 하고 바디에서 데이터꺼내는 법 확인
-
     const newUser = {
         email : req.body.email,
         password : req.body.password,
@@ -46,8 +45,6 @@ function createUser(req, res) {
     
     model.createUser(newUser);
 
-    // Res 뭐해야하지
-    // 로그인 창으로 리다이렉트
     res.redirect('http://localhost:8080/users/sign-in');
 }
 
@@ -65,7 +62,7 @@ function updateUser(req, res) {
         profileImage: req.body.profileImage
     }
 
-    model.updateUser(user); // 여기 할 차례
+    model.updateUser(user); 
     res.redirect(`http://localhost:8080/users/${user.id}`);
 }
 
@@ -79,7 +76,7 @@ function updateUserPassword(req, res) {
         password: req.body.password
     }
     
-    model.updateUserPassword(user); // 여기 할 차례
+    model.updateUserPassword(user); 
     res.redirect(`http://localhost:8080/users/${user.id}/password`);
 }
 

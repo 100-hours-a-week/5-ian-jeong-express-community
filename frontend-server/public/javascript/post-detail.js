@@ -10,12 +10,12 @@ const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이�
 const profileImg = document.getElementById("profile-img"); // 프로필 이미지 클릭 시 드롭 박스 노출
 const dropBox = document.getElementById("drop-down-box");
 
-profileImg.addEventListener("click", function() {
+profileImg.addEventListener("click", () => {
     dropBox.style.visibility = "visible";
 });
 
 if(dropBox.style.visibility === "visible") {
-    document.addEventListener('click', function(event) { // 드롭 박스 히든
+    document.addEventListener('click', (event) => { // 드롭 박스 히든
         const clickedElement = event.target;
     
         if (clickedElement !== profileImg) {
@@ -24,11 +24,11 @@ if(dropBox.style.visibility === "visible") {
     });
 }
 
-document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+document.getElementById('user-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}`;
 });
 
-document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+document.getElementById('password-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/password`;
 });
 
@@ -41,7 +41,7 @@ fetch(`http://localhost:8081/users/${userId}`)
 
 
 
-document.getElementById('edit-btn').addEventListener('click', function(event) { // 게시글 편집 페이지 이동 이벤트
+document.getElementById('edit-btn').addEventListener('click', (event) => { // 게시글 편집 페이지 이동 이벤트
     window.location.href=`/posts/${postId}/edit`;
 });
 
@@ -53,21 +53,21 @@ const modal = document.getElementById("modal");
 const modalCancel = document.getElementById("modal-cancel"); // 게시글 삭제 모달 창에서 취소 이벤트 
 const modalDelete = document.getElementById("modal-delete"); // 게시글 삭제 모달 창에서 삭제 이벤트
 
-deleteBtn.addEventListener('click', function(event) {
+deleteBtn.addEventListener('click', (event) => {
     modalBack.style.visibility = "visible";
     modal.style.visibility = "visible";
 
     document.body.overflow = 'hidden';
 });
 
-modalCancel.addEventListener('click', function(event) {
+modalCancel.addEventListener('click', (event) => {
     modalBack.style.visibility = "hidden";
     modal.style.visibility = "hidden";
 
     document.body.style.overflow = "visible";
 });
 
-modalDelete.addEventListener('click', function(event) {
+modalDelete.addEventListener('click', (event) => {
     fetch(`http://localhost:8081/posts/${postId}`, {method: 'DELETE'});
     alert('해당 게시글이 삭제되었습니다!');
 
@@ -135,7 +135,7 @@ function makeShortNumber(number) { // 조회수와 댓글 천 단위 넘어가�
 const commentInput = document.getElementById("comment-input"); 
 const addCommentBtn = document.getElementById("add-comment-btn");
 
-commentInput.addEventListener('input', function(event) { // 댓글입력창 이벤트
+commentInput.addEventListener('input', (event) => { // 댓글입력창 이벤트
     const value = event.target.value;
 
     if(value) {
@@ -148,7 +148,7 @@ commentInput.addEventListener('input', function(event) { // 댓글입력창 이�
 })
 
 
-addCommentBtn.addEventListener('click', async function(event) { // 댓글 추가
+addCommentBtn.addEventListener('click', async (event) => { // 댓글 추가
 
     if (addCommentBtn.textContent === "댓글 수정") {
         const obj = {
@@ -264,7 +264,7 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
 
 
             // 댓글 PATCH 기능 추가해야함
-            writerEditBtn.addEventListener('click', async function() {  
+            writerEditBtn.addEventListener('click', async () => {  
                 
                 // 버튼 글자 바꾸고 포스트아이디 유저아이디는 고정
                 // 댓글 텍스트로 patch할지 
@@ -278,11 +278,11 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             });
                 
                 
-            writerDeleteBtn.addEventListener('click', function() {
-                var comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
-                var commentDeleteBtn = comment.querySelector('.writer-delete-btn'); // 해당 댓글 내용 입력 필드를 찾음
+            writerDeleteBtn.addEventListener('click', () => {
+                const comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
+                const commentDeleteBtn = comment.querySelector('.writer-delete-btn'); // 해당 댓글 내용 입력 필드를 찾음
                                 
-                commentDeleteBtn.addEventListener('click', function(event) {
+                commentDeleteBtn.addEventListener('click', (event) => {
                     const modalBack = document.getElementById("modal-back");
                     modalBack.style.visibility = "visible";
                         
@@ -305,7 +305,7 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
 
 
 const commentModalCancel = document.getElementById("comment-modal-cancel");
-commentModalCancel.addEventListener('click', function(event) { // 댓글 삭제 모달 창 내에서 취소
+commentModalCancel.addEventListener('click', (event) => { // 댓글 삭제 모달 창 내에서 취소
     const modalBack = document.getElementById("modal-back");
     modalBack.style.visibility = "hidden";
         
@@ -315,7 +315,7 @@ commentModalCancel.addEventListener('click', function(event) { // 댓글 삭제 
 });
     
 const commentModalDelete = document.getElementById("comment-modal-delete");
-commentModalDelete.addEventListener('click', async function(event) { // 댓글 삭제 모달 창 내에서 삭제 
+commentModalDelete.addEventListener('click', async (event) => { // 댓글 삭제 모달 창 내에서 삭제 
     const commentModal = document.getElementById("comment-modal");
     const modalBack = document.getElementById("modal-back");
     

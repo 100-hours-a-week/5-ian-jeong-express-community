@@ -28,7 +28,7 @@ function addImage(event) {
 let isCorrentEmail = false;
 const emailInput = document.getElementById("email-input");
 
-emailInput.addEventListener("blur", async function(event) {
+emailInput.addEventListener("blur", async (event) => {
     let value = event.target.value;
     let emailHelper = document.getElementById("email-input-helper-text");
 
@@ -93,7 +93,7 @@ const passwordInput = document.getElementById("password-input");
 let isCorrectRePassword = false;
 const rePasswordInput = document.getElementById("re-password-input");
 
-passwordInput.addEventListener("blur", async function(event) {
+passwordInput.addEventListener("blur", async (event) => {
     let value = event.target.value;
     let passwordHelper = document.getElementById("password-input-helper-text");
     let rePasswordHelper = document.getElementById("re-password-input-helper-text");
@@ -131,7 +131,7 @@ passwordInput.addEventListener("blur", async function(event) {
 
 
 // 비밀번호 확인 검증
-rePasswordInput.addEventListener("blur", async function(event) {
+rePasswordInput.addEventListener("blur", async (event) => {
     let value = event.target.value;
     let passwordHelper = document.getElementById("password-input-helper-text");
     let rePasswordHelper = document.getElementById("re-password-input-helper-text");
@@ -186,7 +186,7 @@ function validatePasswordDouble() {
 let isCorrectNickname = false;
 const nicknameInput = document.getElementById("nickname-input");
 
-nicknameInput.addEventListener("blur", async function(event) {
+nicknameInput.addEventListener("blur", async (event) => {
     const value = event.target.value;
     const nicknameHelper = document.getElementById("nickname-input-helper-text");
 
@@ -247,7 +247,7 @@ async function validateDuplicateNickname(nickname, flag) {
 
 
 // 회원가입 버튼 활성화
-document.addEventListener('click', function(event) {
+document.addEventListener('click', (event) => {
     const clickedElement = event.target;
     const signUpBtn = document.getElementById('sign-up-btn');
     

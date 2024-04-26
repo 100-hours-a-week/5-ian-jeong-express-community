@@ -1,6 +1,6 @@
 const userId = 1;
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();
     };
@@ -8,12 +8,12 @@ document.addEventListener('keydown', function(event) {
 
 
 const profileImg = document.getElementById("profile-img");
-profileImg.addEventListener("click", function() {
+profileImg.addEventListener("click", () => {
     const dropBox = document.getElementById("drop-down-box");
     dropBox.style.visibility = "visible";
 });
 
-document.addEventListener('click', function(event) {
+document.addEventListener('click', (event) => {
     const dropBox = document.getElementById("drop-down-box");
     const profileImg = document.getElementById("profile-img");
     const clickedElement = event.target;
@@ -23,11 +23,11 @@ document.addEventListener('click', function(event) {
     }
 });
 
-document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+document.getElementById('user-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}`;
 });
 
-document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+document.getElementById('password-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/password`;
 });
 
@@ -56,8 +56,8 @@ const rePasswordInput = document.getElementById("input-password-double");
 
 const editBtn = document.getElementById("edit-btn");
 
-var isCorrentPassword = false;
-passwordInput.addEventListener("blur", function(event) {
+let isCorrentPassword = false;
+passwordInput.addEventListener("blur", (event) => {
     let value = event.target.value;
     let passwordHelper = document.getElementById("password-helper-text");
     let rePasswordHelper = document.getElementById("re-password-helper-text");
@@ -91,8 +91,8 @@ passwordInput.addEventListener("blur", function(event) {
 
 
 // 비밀번호 확인 검증
-var isCorrentRePassword = false;
-rePasswordInput.addEventListener("blur", function(event) {
+let isCorrentRePassword = false;
+rePasswordInput.addEventListener("blur", (event) => {
     let value = event.target.value;
     let passwordHelper = document.getElementById("password-helper-text");
     let rePasswordHelper = document.getElementById("re-password-helper-text");
@@ -138,7 +138,7 @@ function validatePasswordDouble() {
     return password === rePassowrd;
 }
 
-editBtn.addEventListener('click', async function(event) {
+editBtn.addEventListener('click', async (event) => {
     event.preventDefault(); // form 내에서 버튼 클릭 시 리로딩 되니까 헬퍼 텍스트 변경사항이 유지하기 위해
 
     console.log(isCorrentPassword, isCorrentRePassword);

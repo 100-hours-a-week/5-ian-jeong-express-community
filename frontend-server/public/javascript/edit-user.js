@@ -1,7 +1,7 @@
 const userId = 1;
 
 
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();
     };
@@ -14,12 +14,12 @@ document.addEventListener('keydown', function(event) {
 const profileImg = document.getElementById("profile-img");
 const dropBox = document.getElementById("drop-down-box");
 
-profileImg.addEventListener("click", function() {
+profileImg.addEventListener("click", () => {
     dropBox.style.visibility = "visible";
 });
 
 if(dropBox.style.visibility === "visible") {
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', (event) => {
         const clickedElement = event.target;
 
         if (clickedElement !== profileImg) {
@@ -28,11 +28,11 @@ if(dropBox.style.visibility === "visible") {
     });
 }
 
-document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+document.getElementById('user-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}`;
 });
 
-document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+document.getElementById('password-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/password`;
 });
 
@@ -44,7 +44,7 @@ document.getElementById('password-edit-btn').addEventListener('click', function(
 
 
 
-var userNickname;
+let userNickname;
 const nicknameInput = document.getElementById("nickname-edit");
 
 
@@ -85,7 +85,7 @@ function addImage(event) {
 const editBtn = document.getElementById("edit-btn");
 const helperText = document.getElementById("helper-text");
 
-editBtn.addEventListener("click", async function(event) {
+editBtn.addEventListener("click", async (event) => {
     event.preventDefault(); // form 내에서 버튼 클릭 시 리로딩 되니까 헬퍼 텍스트 변경사항이 유지하기 위해
     const value = nicknameInput.value;
 
@@ -157,7 +157,7 @@ function executeToast() {
 
 
 const deleteBtn = document.getElementById("delete-btn");
-deleteBtn.addEventListener('click', function(event) {
+deleteBtn.addEventListener('click', (event) => {
     event.preventDefault()
     const modalBack = document.getElementById("modal-back");
     modalBack.style.visibility = "visible";
@@ -169,7 +169,7 @@ deleteBtn.addEventListener('click', function(event) {
 
 
 const modalCancel = document.getElementById("modal-cancel");
-modalCancel.addEventListener('click', function(event) {
+modalCancel.addEventListener('click', (event) => {
     event.preventDefault()
     const modalBack = document.getElementById("modal-back");
     modalBack.style.visibility = "hidden";
@@ -179,7 +179,7 @@ modalCancel.addEventListener('click', function(event) {
 });
 
 const modalDelete = document.getElementById("modal-delete");
-modalDelete.addEventListener('click', function(event) {
+modalDelete.addEventListener('click', (event) => {
     event.preventDefault()
     
     fetch(`http://localhost:8081/users/${userId}`, {method: 'DELETE'});

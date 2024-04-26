@@ -1,4 +1,4 @@
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();
     };
@@ -7,12 +7,12 @@ document.addEventListener('keydown', function(event) {
 
 // 헤더에 이미지 로딩
 const profileImg = document.getElementById("profile-img");
-profileImg.addEventListener("click", function() {
+profileImg.addEventListener("click", () => {
     const dropBox = document.getElementById("drop-down-box");
     dropBox.style.visibility = "visible";
 });
 
-document.addEventListener('click', function(event) {
+document.addEventListener('click', (event) => {
     const dropBox = document.getElementById("drop-down-box");
     const profileImg = document.getElementById("profile-img");
     const clickedElement = event.target;
@@ -22,11 +22,11 @@ document.addEventListener('click', function(event) {
     }
 });
 
-document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+document.getElementById('user-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}`;
 });
 
-document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+document.getElementById('password-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/password`;
 });
 
@@ -49,7 +49,7 @@ fetch(`http://localhost:8081/users/${userId}`)
 const titleInput = document.getElementById("title-input");
 
     
-titleInput.addEventListener("input", function() {
+titleInput.addEventListener("input", () => {
     const inputText = this.value;
     
     
@@ -62,7 +62,7 @@ titleInput.addEventListener("input", function() {
 
 const completeBtn = document.getElementById("complete-btn");
 
-titleInput.addEventListener("blur", function(event) { // 제목과 본문 아웃 포커싱할때마다 검증하고 검증된다면 버튼 색 활성화
+titleInput.addEventListener("blur", (event) => { // 제목과 본문 아웃 포커싱할때마다 검증하고 검증된다면 버튼 색 활성화
     // 제목 내용 검증하고 버튼 색 활성화
 
     const titleValue = event.target.value;
@@ -86,7 +86,7 @@ titleInput.addEventListener("blur", function(event) { // 제목과 본문 아웃
 
 const postInput = document.getElementById("post-input");
 
-postInput.addEventListener("blur", function(event) {
+postInput.addEventListener("blur", (event) => {
     // 제목 내용 검증하고 버튼 색 활성화
 
     const postValue = event.target.value;
@@ -131,7 +131,7 @@ function addImage(event) {
 
 
 // 버튼 누를 때마다 검증 진행하고 이때 조건 안되면 헬퍼텍스트 노출
-completeBtn.addEventListener("click", function() {
+completeBtn.addEventListener("click", () => {
     // 둘 다 검증하고 안되면 헬퍼텍스트 노출
     const titleValue = document.getElementById('title-input').value;
     const postValue = document.getElementById('post-input').value;

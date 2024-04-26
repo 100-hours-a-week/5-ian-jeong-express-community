@@ -1,4 +1,4 @@
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();
     };
@@ -7,23 +7,23 @@ document.addEventListener('keydown', function(event) {
 
 const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
 
-document.getElementById('user-edit-btn').addEventListener('click', function(event) {
+document.getElementById('user-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/edit`;
 });
 
-document.getElementById('password-edit-btn').addEventListener('click', function(event) {
+document.getElementById('password-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/password`;
 })
 
 
 
 const profileImg = document.getElementById("profile-img");
-profileImg.addEventListener("click", function() {
+profileImg.addEventListener("click", () => {
     const dropBox = document.getElementById("drop-down-box");
     dropBox.style.visibility = "visible";
 });
 
-document.addEventListener('click', function(event) {
+document.addEventListener('click', (event) => {
     const dropBox = document.getElementById("drop-down-box");
     const profileImg = document.getElementById("profile-img");
     const clickedElement = event.target;
@@ -36,7 +36,7 @@ document.addEventListener('click', function(event) {
 
 // 제목 26여섯글자 제한
 const titleInput = document.getElementById("title-input");
-titleInput.addEventListener("input", function() {
+titleInput.addEventListener("input", () => {
     const inputText = this.value;
     
     
@@ -58,13 +58,13 @@ fetch(`http://localhost:8081/users/${userId}`)
     })
 
 
-var currentUrl = window.location.href;
-var urlParams = currentUrl.split('/');
+const currentUrl = window.location.href;
+const urlParams = currentUrl.split('/');
 const postId = urlParams[urlParams.length - 2];
 
 // 폼제출하면 posts/1만 나오도록수정해보자
 // form에서 patch가 적용이안된다고 하니 다른 방법으로 해보자
-document.getElementById('main').addEventListener('submit', function(event) {
+document.getElementById('main').addEventListener('submit', (event) => {
     this.action=`http://localhost:8081/posts/${postId}?_method=PATCH`;
 });
 
