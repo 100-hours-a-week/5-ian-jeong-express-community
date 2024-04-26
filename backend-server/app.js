@@ -22,4 +22,3 @@ app.listen(port, () => {
     console.log(`====================================== COMMUNITY BACKEND SERVER START ! ======================================`);
     console.log(`PORT NUMBER -> ${port}`);
 });
-

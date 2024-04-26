@@ -9,7 +9,7 @@ function addImage(event) {
             preview.src = e.target.result; 
             document.getElementById("profile-circle").value = preview.src;
         }
-        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환, 변환 완료 되면 reader가 가진 이벤트 발생 
+        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환, 변환 완료 되면 reader가 가진 이벤트 발생
     
         document.getElementById("profile-helper-text").style.visibility = "hidden";
 
@@ -200,7 +200,7 @@ nicknameInput.addEventListener("blur", async function(event) {
 
     if (value.search(/\s/) != -1) { // 공백 확인
         nicknameHelper.style.visibility = "visible";
-        nicknameHelper.textContent = "*띄어쓰기를 업애주세요.";
+        nicknameHelper.textContent = "*띄어쓰기를 없애주세요.";
         isCorrectNickname = false;   
 
         return;
