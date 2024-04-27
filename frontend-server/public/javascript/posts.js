@@ -1,4 +1,4 @@
-import {BACKEND_IP_PORT} from './global.mjs';
+BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
 const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
 

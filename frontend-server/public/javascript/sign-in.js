@@ -1,6 +1,4 @@
-import {BACKEND_IP_PORT} from './global.mjs';
-
-
+BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
 async function validateSignIn(event) {
     const email = document.getElementById('email-input').value;

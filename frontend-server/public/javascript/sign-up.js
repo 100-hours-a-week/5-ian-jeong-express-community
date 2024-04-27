@@ -1,4 +1,11 @@
-import {BACKEND_IP_PORT} from './global.mjs';
+
+
+
+
+BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
+
+
+
 
 
 
