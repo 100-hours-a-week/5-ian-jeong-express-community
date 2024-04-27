@@ -1,0 +1,1 @@
+export const BACKEND_IP_PORT = 'http://localhost:8081';

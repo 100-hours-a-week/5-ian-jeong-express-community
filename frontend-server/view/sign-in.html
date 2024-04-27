@@ -13,16 +13,11 @@
     </header>
 
 
-
-    <!-- 로그인은 중요정보이기 때문에 get요청으로 쿼리파라미터에 넣는 것 보다는 Post요청으로 바디에 넣는것이 좋음 -->
-    <!-- form 전송을 get요청으로 날리면 쿼리 파라미터로 들어가기 때문에 url에 표시됨 -->
     <form id="sign-in-form" action="/posts" method="get" onsubmit="return validateSignIn(event)">
         <div id="form-title">로그인</div>
         
-
         <div id="input-box">
-            <!-- 이벤트 핸들러에 전달되는 단 하나의 객체 event -->
-            <!-- 여기서 event는 form 제출 이벤트에 대한 내용을 담고 있음 -->
+
             <label for="email-input" id="email-text">이메일</label>
             <input type="text" id="email-input" name="email" placeholder="이메일을 입력하세요">
 
@@ -30,6 +25,7 @@
             <input type="password" id="password-input" name="password" placeholder="비밀번호를 입력하세요">
             
             <div id="helper-text">*helper-text</div>
+
         </div>
 
 
@@ -37,13 +33,13 @@
         <button id="sign-in-btn" type="submit">로그인</button>
     </form>
 
-    <!-- 회원가입 페이지 이동은 단순 Get 요청 -->
+
     <button id="sign-up-btn" onclick="location.href='/users/sign-up'">회원가입</button>
 
 
 
 
-
-    <script type="text/javascript" src="/javascript/sign-in.js"></script>
+    <script type="module" src="/javascript/global.mjs"></script>
+    <script type="module" src="/javascript/sign-in.js"></script>
 </body>
 </html>

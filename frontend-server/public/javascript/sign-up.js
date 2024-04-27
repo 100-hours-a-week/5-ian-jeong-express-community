@@ -1,3 +1,7 @@
+import {BACKEND_IP_PORT} from './global.mjs';
+
+
+
 function addImage(event) {
     const file = event.target.files[0]; // 선택한 파일 가져오기
     const preview = document.getElementById("preview");
@@ -70,11 +74,10 @@ function validateEmailFormat(email) {
     return emailRegex.test(email);
 }
 
-async function validateDuplicateEmail(email, flag) {
-    // fetch나 ajax는 url이 안바뀜, rest가 아닌 컨트롤 자원에는 동사 허용, 반환값은 중복여부, 중복아니라면 true, 맞다면 false
-    // "result" : "true" or "false"
 
-    await fetch(`http://localhost:8081/users/email?email=${email}`) // 바디에 Json 담아서 요청
+async function validateDuplicateEmail(email, flag) {
+
+    await fetch(`http://localhost:8081/users/email?email=${email}`)
         .then(isDuplicated => isDuplicated.json())
         .then(isDuplicatedJson => {
             if (isDuplicatedJson.result === "true") {
@@ -86,7 +89,6 @@ async function validateDuplicateEmail(email, flag) {
 
 
 
-// 비밀번호 & 비밀번호 확인 검증
 let isCorrectPassword = false;
 const passwordInput = document.getElementById("password-input");
 

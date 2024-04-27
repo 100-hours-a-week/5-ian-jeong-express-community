@@ -1,3 +1,7 @@
+import {BACKEND_IP_PORT} from './global.mjs';
+
+
+
 async function validateSignIn(event) {
     const email = document.getElementById('email-input').value;
     const password = document.getElementById('password-input').value;

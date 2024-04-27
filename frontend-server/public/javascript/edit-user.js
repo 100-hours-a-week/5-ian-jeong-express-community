@@ -1,3 +1,6 @@
+import {BACKEND_IP_PORT} from './global.mjs';
+
+
 const userId = 1;
 
 

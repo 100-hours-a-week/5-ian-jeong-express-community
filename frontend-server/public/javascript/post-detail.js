@@ -1,4 +1,4 @@
-
+import {BACKEND_IP_PORT} from './global.mjs';
 
 
 const currentUrl = window.location.href;
