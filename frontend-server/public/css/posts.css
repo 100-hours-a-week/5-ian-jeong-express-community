@@ -53,6 +53,8 @@ header {
     height: 36px;
 
     border-radius: 50%;
+
+    cursor: pointer;
 }
 
 
@@ -82,6 +84,8 @@ header {
     font-weight: 400;
     font-size: 12px;
     line-height: 14.52px;
+
+    cursor: pointer;
 }
 
 #user-edit-btn:hover {
@@ -106,6 +110,8 @@ header {
     font-weight: 400;
     font-size: 12px;
     line-height: 14.52px;
+
+    cursor: pointer;
 }
 
 #logout-btn {
@@ -118,6 +124,8 @@ header {
     font-weight: 400;
     font-size: 12px;
     line-height: 14.52px;
+
+    cursor: pointer;
 }
 
 
@@ -170,13 +178,15 @@ header {
     font-weight: 700;
     line-height: 25.04px;
     color: white;
+
+    cursor: pointer;
+    transition: all 0.5s ease;
 }
 
 #add-btn:hover {
     background-color: #7F6AEE;
 
-    transition-property: background-color;
-    transition-duration: 1s;
+    transform: scale(1.05); 
 }
 
 
@@ -194,15 +204,15 @@ header {
     background-color: white;
     border-radius: 16px;
     filter: drop-shadow(3px 4px 4px rgba(204, 204, 204, 0.25));
-}
-/* 데이터 타입으로 바꿔서 넣어보자 */
-.post-id { 
-    width: 0;
-    height: 0;
 
-    opacity: 0;
-    position:absolute;
+    cursor: pointer;
+    transition: transform 0.5s ease;
 }
+
+.post-box:hover {
+    transform: scale(1.05); 
+}
+
 
 .up-post {
     width: 592px;

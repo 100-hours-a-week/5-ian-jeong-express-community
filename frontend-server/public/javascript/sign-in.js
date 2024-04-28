@@ -102,19 +102,3 @@ async function validateAccount(flag, email, password) {
              }
         });
 }
-
-
-
-document.getElementById('sign-in-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    
-    await this.onsubmit(event)
-        .then(result => {
-            if (result) {
-                setTimeout(() => {
-                    // document.getElementById('sign-in-form').submit();
-                    window.location.href = '/posts';
-                }, 3000);        
-            }
-    });
-});

@@ -1,27 +1,29 @@
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
-const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
+const userId = getUserIdFromCookie();
 
-document.getElementById('user-edit-btn').addEventListener('click', (event) => {
+const userEditBtn = document.getElementById('user-edit-btn');
+const passwordEditBtn = document.getElementById('password-edit-btn');
+
+const profileImg = document.getElementById("profile-img");
+const dropBox = document.getElementById("drop-down-box");
+
+
+
+userEditBtn.addEventListener('click', (event) => {
     window.location.href=`/users/${userId}`;
 });
 
-document.getElementById('password-edit-btn').addEventListener('click', (event) => {
+passwordEditBtn.addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/password`;
-})
+});
 
-
-
-// 프로필 드롭다운 박스 
-const profileImg = document.getElementById("profile-img");
 profileImg.addEventListener("click", () => {
-    const dropBox = document.getElementById("drop-down-box");
+    
     dropBox.style.visibility = "visible";
 });
 
 document.addEventListener('click', (event) => {
-    const dropBox = document.getElementById("drop-down-box");
-    const profileImg = document.getElementById("profile-img");
     const clickedElement = event.target;
 
     if (clickedElement !== profileImg) {
@@ -31,20 +33,13 @@ document.addEventListener('click', (event) => {
 
 
 
-
-// 그리고 패치로 유저 데이터 가져와서 이미지 꺼내서 프로필 사진태그 속성 변경 ㄱㄱ
-fetch(`http://localhost:8081/users/${userId}`) // 패치로 유저 아이디에 해당하는 유저 데이터를 제이슨으로 받아와서 세팅
+fetch(`${BACKEND_IP_PORT}/users/${userId}`) 
     .then(userData => userData.json())
     .then(userJson => {
-        console.log(userJson);
-        document.getElementById("profile-img").src = userJson.profileImage;
-    })
+        profileImg.src = userJson.profileImage;
+    });
 
-
-
-
-// 게시글 제이슨 가져와서 리스트 만들기 ㄱㄱ
-fetch('http://localhost:8081/posts')
+fetch(`${BACKEND_IP_PORT}/posts`)
     .then(postsData => postsData.json())
     .then(postsJson => {
         postsJson.forEach(post => {
@@ -86,29 +81,25 @@ fetch('http://localhost:8081/posts')
 
             postBox.id = post.id;
 
-            // 타이틀 검사 진행
-            if (post.title.length > 25) {
-                postTitle.textContent = post.title.slice(0, 26) + "...";
+            if (post.title.length > 26) {
+                postTitle.textContent = post.title.slice(0, 27) + "...";
             } else {
                 postTitle.textContent = post.title;
             }
 
-            // 1,000이상일 때 1K,  10,000d이상일 때 10K, 100,000이상일 때 100K로 입력
             like.textContent = `좋아요 ${makeShortNumber(post.likes)}`;
             comment.textContent = `댓글 ${makeShortNumber(post.comments)}`;
             hits.textContent = `조회수 ${makeShortNumber(post.hits)}`;
 
             time.textContent = post.time;
             
-
-            fetch(`http://localhost:8081/users/${post.writer}}`) // 해당 게시물 작성한 유저 아이디 찾아야 프로필 찾기 가능, 결과는 해당 유저반환 
+            fetch(`${BACKEND_IP_PORT}/users/${post.writer}}`)
                 .then(userData => userData.json())
                 .then(userJson => {
                         profileImage.src = userJson.profileImage;
                         writer.textContent = userJson.nickname;
                     })
 
-            
             postLogBox.appendChild(like);
             postLogBox.appendChild(comment);
             postLogBox.appendChild(hits);
@@ -129,7 +120,7 @@ fetch('http://localhost:8081/posts')
             postBox.addEventListener('click', () => {
                 window.location.href = `/posts/${postBox.id}`;
             });
-        })
+        });
     });
 
 
@@ -138,6 +129,21 @@ function makeShortNumber(number) {
         return (number / 1000).toFixed(0) + 'K';
             
     } else {
-        return number.toString(); // 그대로 반환
+        return number.toString();
+    }
+}
+
+
+function getUserIdFromCookie() {
+    const cookieArray = document.cookie.split(';');
+
+    for (let cookie of cookieArray) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+            
+        if (cookieName === 'userId') {
+            return decodeURIComponent(cookieValue);
+        }
+    
+        return null;
     }
 }
