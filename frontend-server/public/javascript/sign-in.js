@@ -1,4 +1,6 @@
+
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
+
 
 async function validateSignIn(event) {
     const email = document.getElementById('email-input').value;
@@ -74,7 +76,7 @@ async function validateAccount(flag, email, password) {
         body: JSON.stringify(obj)
     }
     
-    await fetch('http://localhost:8081/users/sign-in', data) 
+    await fetch(`${BACKEND_IP_PORT}/users/sign-in`, data) 
         .then(isAuthenticated => isAuthenticated.json())
         .then(isAuthenticatedJson => {
             console.log(isAuthenticatedJson);

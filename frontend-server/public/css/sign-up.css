@@ -58,7 +58,7 @@ header {
 
 
 #sign-up-form {
-    margin-top: 14.9vh;
+    margin-top: 10.9vh;
 
     display: flex;
     flex-direction: column;
@@ -167,6 +167,8 @@ header {
 
 
 .helper-text {
+    width: 500px;
+
     margin-top: 4px;
 
     font-weight: 400;
@@ -187,6 +189,8 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    
 }
 
 #email-text {

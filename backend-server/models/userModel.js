@@ -47,7 +47,6 @@ function validateDuplicatedNickname(nickname) {
 }
 
 function createUser(newUser) {
-    // 읽단 읽어서 유저 아이디 파악하고 아이디 정하고 json에 append
     const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 

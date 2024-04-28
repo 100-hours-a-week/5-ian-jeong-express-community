@@ -11,9 +11,8 @@ const app = express();
 const port = 8081; 
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.json());
 app.use(methodOverride('_method'));
 
 app.use('/users', userRouter);

@@ -13,6 +13,8 @@ function validateUser(req, res) {
     res.json(resultJson);
 }
 
+
+
 function validateDuplicatedEmail(req, res) {
     const email = req.query.email;
     const isValid = model.validateDuplicatedEmail(email);
@@ -23,7 +25,9 @@ function validateDuplicatedEmail(req, res) {
 
     res.json(resultJson);
 }
- 
+
+
+
 function validateDuplicatedNickname(req, res) {
     const nickname = req.query.nickname;
     const isValid = model.validateDuplicatedNickname(nickname);
@@ -35,6 +39,8 @@ function validateDuplicatedNickname(req, res) {
     res.json(resultJson);
 }
 
+
+
 function createUser(req, res) {
     const newUser = {
         email : req.body.email,
@@ -45,14 +51,18 @@ function createUser(req, res) {
     
     model.createUser(newUser);
 
-    res.redirect('http://localhost:8080/users/sign-in');
+    res.status(201).send('sign_up_create_success');
 }
+
+
 
 function getUser(req, res) {
     const user = model.getUser(req.params.userId);
 
     res.json(user);
 }
+
+
 
 function updateUser(req, res) {
 
@@ -70,6 +80,8 @@ function deleteUser(req, res) {
     model.deleteUser(req.params.userId);
 }
 
+
+
 function updateUserPassword(req, res) {
     const user = {
         id: parseInt(req.params.userId),
@@ -79,6 +91,9 @@ function updateUserPassword(req, res) {
     model.updateUserPassword(user); 
     res.redirect(`http://localhost:8080/users/${user.id}/password`);
 }
+
+
+
 
 
 export default {
