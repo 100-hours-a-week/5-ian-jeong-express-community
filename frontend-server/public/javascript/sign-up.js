@@ -5,9 +5,19 @@ BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 const form = document.getElementById("sign-up-form");
 const preview = document.getElementById("preview");
 
+const emailInput = document.getElementById("email-input");
+const emailHelper = document.getElementById("email-input-helper-text");
 
+const passwordInput = document.getElementById("password-input");
+const passwordHelper = document.getElementById("password-input-helper-text");
 
+const rePasswordInput = document.getElementById("re-password-input");
+const rePasswordHelper = document.getElementById("re-password-input-helper-text");
 
+const nicknameInput = document.getElementById("nickname-input");
+const nicknameHelper = document.getElementById("nickname-input-helper-text");
+
+const signUpBtn = document.getElementById('sign-up-btn');
 
 function addImage(event) {
     const file = event.target.files[0];
@@ -33,26 +43,26 @@ function addImage(event) {
 
 
 
-const signUpBtn = document.getElementById('sign-up-btn');
+
 
 let isCorrentEmail = false;
 let isCorrectPassword = false;
 let isCorrectRePassword = false;
 let isCorrectNickname = false;
 
-const emailInput = document.getElementById("email-input");
+
 
 emailInput.addEventListener("input", async (event) => {
-    let value = event.target.value;
-    let emailHelper = document.getElementById("email-input-helper-text");
+    const value = event.target.value;
+    
 
-    if (!value) { // 비어있는 경우
+    if (!value) {
         emailHelper.style.visibility = "visible";
         emailHelper.style.color = "#FF0000";
         emailHelper.textContent = "*이메일을 입력해주세요";
         isCorrentEmail = false;
 
-    } else if (!validateEmailFormat(value)) { // 형식이 짧은 경우
+    } else if (!validateEmailFormat(value)) { 
         emailHelper.style.visibility = "visible";
         emailHelper.style.color = "#FF0000";
         emailHelper.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예:example@example.com)";
@@ -66,7 +76,6 @@ emailInput.addEventListener("input", async (event) => {
         console.log(`이메일 중복 검사결과: ${flag['flag']}`);
 
         if (flag['flag']) {
-            // emailHelper.style.visibility = "hidden";
             emailHelper.style.visibility = "visible";
             emailHelper.style.color = "#0040FF";
             emailHelper.textContent = "*사용가능한 이메일입니다.";
@@ -103,11 +112,11 @@ async function validateDuplicateEmail(email, flag) {
 
 
 
-const passwordInput = document.getElementById("password-input");
+
 
 passwordInput.addEventListener("input", async (event) => {
-    let value = event.target.value;
-    let passwordHelper = document.getElementById("password-input-helper-text");
+    const value = event.target.value;
+
 
     if (!value) {
         passwordHelper.style.visibility = "visible";
@@ -134,11 +143,10 @@ passwordInput.addEventListener("input", async (event) => {
 
 
 
-const rePasswordInput = document.getElementById("re-password-input");
+
 
 rePasswordInput.addEventListener("input", async (event) => {
-    let value = event.target.value;
-    let rePasswordHelper = document.getElementById("re-password-input-helper-text");
+    const value = event.target.value;
 
 
     if (!value) {
@@ -180,11 +188,10 @@ function validatePasswordDouble() {
 
 
 
-const nicknameInput = document.getElementById("nickname-input");
+
 
 nicknameInput.addEventListener("input", async (event) => {
     const value = event.target.value;
-    const nicknameHelper = document.getElementById("nickname-input-helper-text");
 
 
     if (!value) {
@@ -254,10 +261,10 @@ function validateAll() {
 
 
 
+
 signUpBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     
-    // 여기서 
     const obj = {
         email : `${emailInput.value}`,
         password: `${passwordInput.value}`,
@@ -276,9 +283,11 @@ signUpBtn.addEventListener('click', async (event) => {
     await fetch(`${BACKEND_IP_PORT}/users`, data)
         .then(response => {
         if (response.status === 201) {
-          form.submit();
+            alert('회원가입이 완료되었습니다!');
+            form.submit();
         } else {
-          console.log('서버에서 잘못된 응답 코드를 받았습니다.');
+            alert('회원가입에 실패하였습니다!');
+            window.location.href = '/users/sign-up';
         }
       })
       .catch(error => {
