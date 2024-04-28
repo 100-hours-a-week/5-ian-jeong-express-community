@@ -19,6 +19,12 @@ const nicknameHelper = document.getElementById("nickname-input-helper-text");
 
 const signUpBtn = document.getElementById('sign-up-btn');
 
+let isCorrentEmail = false;
+let isCorrectPassword = false;
+let isCorrectRePassword = false;
+let isCorrectNickname = false;
+
+
 function addImage(event) {
     const file = event.target.files[0];
     
@@ -41,14 +47,6 @@ function addImage(event) {
 }
 
 
-
-
-
-
-let isCorrentEmail = false;
-let isCorrectPassword = false;
-let isCorrectRePassword = false;
-let isCorrectNickname = false;
 
 
 

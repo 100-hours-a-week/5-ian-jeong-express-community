@@ -1,0 +1,1 @@
+export const FRONTEND_IP_PORT = 'http://localhost:8080';

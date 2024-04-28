@@ -79,6 +79,18 @@ function getUser(userId) {
     }
 }
 
+function getUserId(email) {
+    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonData = JSON.parse(usersJsonFile);
+
+    for (let i = 0; i < usersJsonData.length; i++) {
+        let user = usersJsonData[i];
+        if (user.email === email) {
+            return user.id;
+        }
+    }
+}
+
 
 function updateUser(user) {
     const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
@@ -162,6 +174,7 @@ export default {
     validateDuplicatedNickname,
     createUser,
     getUser,
+    getUserId,
     updateUser,
     deleteUser,
     updateUserPassword

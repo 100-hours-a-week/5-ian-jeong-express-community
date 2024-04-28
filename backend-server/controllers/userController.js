@@ -9,8 +9,12 @@ function validateUser(req, res) {
     const resultJson = {
         result : `${isValid}`
     }
+    
+    if (resultJson.result) {
+        res.cookie(`userId`, `${model.getUserId(email)}`);
+    }
 
-    res.json(resultJson);
+    res.status(200).json(resultJson);
 }
 
 
@@ -23,7 +27,7 @@ function validateDuplicatedEmail(req, res) {
         result : `${isValid}`
     }
 
-    res.json(resultJson);
+    res.status(200).json(resultJson);
 }
 
 
@@ -36,7 +40,7 @@ function validateDuplicatedNickname(req, res) {
         result : `${isValid}`
     }
 
-    res.json(resultJson);
+    res.status(200).json(resultJson);
 }
 
 
