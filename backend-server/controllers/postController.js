@@ -8,16 +8,18 @@ function getPosts(req, res) {
 }
 
 function createPost(req, res) {
+
     const newPost = {
-        writer : 1,
+        writer : req.body.writer,
         title : req.body.title,
         content : req.body.post,
+        imageName: req.body.imageName,
         image : req.body.image
     }
     
     model.createPost(newPost);
 
-    res.redirect('http://localhost:8080/posts');
+    res.status(201).send('create_success');
 }
 
 function getPost(req, res) {

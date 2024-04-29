@@ -10,17 +10,15 @@ init();
 
 
 
-
 async function init() {
-
     var userId = 0;
     const result = {
         id: 0
     }
+
     await getUserIdFromSession(result);
     userId = result.id;
         
-
     userEditBtn.addEventListener('click', (event) => {
         window.location.href=`/users/${userId}`;
     });
@@ -133,7 +131,6 @@ async function init() {
             });
         });
 }
-
 
 
 function makeShortNumber(number) {

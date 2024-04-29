@@ -282,7 +282,7 @@ signUpBtn.addEventListener('click', async (event) => {
         .then(response => {
         if (response.status === 201) {
             alert('회원가입이 완료되었습니다!');
-            form.submit();
+            window.location.href = '/users/sign-in';
         } else {
             alert('회원가입에 실패하였습니다!');
             window.location.href = '/users/sign-up';

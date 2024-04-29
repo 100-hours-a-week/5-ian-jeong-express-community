@@ -5,7 +5,6 @@ import userController from './../controllers/userController.js';
 const router = express.Router();
  
 router.get('/session', (req, res) => {
-    console.log(req.session);
     if (req.session && req.session.user && req.session.user.id) {
         return res.json({ id: req.session.user.id });
     } else {

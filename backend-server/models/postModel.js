@@ -23,6 +23,7 @@ function createPost(newPost) {
         id: newPostId,
         writer: newPost.writer,
         title: newPost.title,
+        imageName: newPost.imageName,
         image: newPost.image,
         time: formattedDate,
         content: newPost.content,

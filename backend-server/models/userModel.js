@@ -144,7 +144,6 @@ function deleteUser(userId) {
     
     fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), result);
 
-    // 관련 게시글 모두 삭제
     postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
     postsJsonData = JSON.parse(postsJsonFile);
     filteredData = postsJsonData.filter(post => post.writer !== parseInt(userId));
