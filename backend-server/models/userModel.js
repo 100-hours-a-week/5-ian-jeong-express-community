@@ -86,7 +86,7 @@ function getUserId(email) {
     for (let i = 0; i < usersJsonData.length; i++) {
         let user = usersJsonData[i];
         if (user.email === email) {
-            return user.id;
+            return parseInt(user.id);
         }
     }
 }
@@ -117,8 +117,6 @@ function deleteUser(userId) {
 
     fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), deletedJsonData, 'utf8');
 
-    // 유저 관련 포스트와 댓글도 모두 삭제 ㄱㄱ
-    // 일단 댓글 모두 삭제하고 댓글에 대한 게시글 댓글 수 수정하고
     const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
     filteredData = commentsJsonData.filter(comment => comment.writer !== parseInt(userId));

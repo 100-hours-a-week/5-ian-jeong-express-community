@@ -1,3 +1,4 @@
+import userModel from '../models/userModel.js';
 import model from '../models/userModel.js';
 
 
@@ -11,7 +12,11 @@ function validateUser(req, res) {
     }
     
     if (resultJson.result) {
-        res.cookie(`userId`, `${model.getUserId(email)}`);
+        req.session.user = {
+            id: `${userModel.getUserId(email)}`,
+            authorized: true,
+        }
+ 
     }
 
     res.status(200).json(resultJson);

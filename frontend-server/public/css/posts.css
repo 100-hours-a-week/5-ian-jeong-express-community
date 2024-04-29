@@ -55,8 +55,12 @@ header {
     border-radius: 50%;
 
     cursor: pointer;
+    transition: transform 0.5s ease;
 }
 
+#profile-img:hover {
+    transform: scale(1.05); 
+}
 
 #drop-down-box {
     width: 115px;

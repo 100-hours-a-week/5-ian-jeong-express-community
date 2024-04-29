@@ -15,7 +15,8 @@ signInBtn.addEventListener('click', async (event) => {
         signInBtn.disabled = true;
 
         await setTimeout(() => {
-
+            signInBtn.style.backgroundColor = '#ACA0EB';
+            signInBtn.disabled = false;
             window.location.href = '/posts';
         }, 3000);        
     }
@@ -65,6 +66,7 @@ async function validateSignIn() {
             
     return flag['flag'];
 }
+
 
 function validateEmailFormat(email) {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;

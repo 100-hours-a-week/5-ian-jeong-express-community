@@ -4,6 +4,15 @@ import userController from './../controllers/userController.js';
 
 const router = express.Router();
  
+router.get('/session', (req, res) => {
+    console.log(req.session);
+    if (req.session && req.session.user && req.session.user.id) {
+        return res.json({ id: req.session.user.id });
+    } else {
+        return res.json({ id: 0 });
+    }
+})
+
 router.post('/', userController.createUser);
 router.post('/sign-in', userController.validateUser);
 router.get('/email', userController.validateDuplicatedEmail);

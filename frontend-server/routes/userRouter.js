@@ -1,5 +1,7 @@
-import express from 'express';
 import path from 'path';
+import express from 'express';
+
+
 
 const router = express.Router();
 const __dirname = path.resolve();
@@ -20,5 +22,6 @@ router.get('/:userId', (req, res) => {
 router.get('/:userId/password', (req, res) => {
     res.sendFile(path.join(__dirname, 'view/edit-password.html'));
 });
+
 
 export default router;

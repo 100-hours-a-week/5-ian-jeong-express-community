@@ -11,8 +11,8 @@ const port = 8080;
 const __dirname = path.resolve();
 
 app.use(cookieParser());
-app.use(express.static(__dirname + "/public")); 
 app.use(cors());
+app.use(express.static(__dirname + "/public")); 
 
 
 app.get('/', (req, res) => {
