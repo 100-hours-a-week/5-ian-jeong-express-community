@@ -1,6 +1,32 @@
-## 🚀 이슈 해결 현황
+# Community Service
 
 
+<br>
+
+## 🚀 Getting Started
+
+
+<br>
+
+
+## 💥 Features
+
+
+
+
+<br>
+
+## 🏯 Architecture
+
+<br>
+
+
+
+
+
+
+
+##  🎯 Troubleshooting
 
 - [x] ~~클릭 요소들에 대한 마우스 포인터 변경~~
 - [x] ~~버튼들 모두 호버 추가~~
