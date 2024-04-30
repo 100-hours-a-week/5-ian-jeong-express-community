@@ -179,44 +179,62 @@ async function init() {
 
 
     addCommentBtn.addEventListener('click', async (event) => { 
-    
-    if (addCommentBtn.textContent === "댓글 수정") {
-        const obj = {
-            text : `${commentInput.value}`
-        }
+        if (addCommentBtn.textContent === "댓글 수정") {
+            const obj = {
+                text : `${commentInput.value}`
+            }
         
-        const data = {
-            method: 'PATCH',
-            headers: {
+            const data = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            }
+        
+            await fetch(`${BACKEND_IP_PORT}/posts/${postId}/comments/${addCommentBtn.getAttribute("data-id")}`, data)
+            .then(response => {
+                if (response.status !== 204) {
+                    alert('댓글 수정 실패!');
+                }
+                    
+                    window.location.href= `/posts/${postId}`;
+                })
+                .catch(error => {
+                    console.error('fetch error:', error);
+                });
+
+                window.location.href= `/posts/${postId}`;
+        
+        } else {
+            const obj = {
+                postId : postId,
+                writer : userId,
+                text : commentInput.value
+            }
+        
+            const data = {
+                method: 'POST',
+                headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj)
+                },
+                body: JSON.stringify(obj)
+            }
+        
+            await fetch(`${BACKEND_IP_PORT}/posts/${postId}/comments`, data)
+                .then(response => {
+                if (response.status !== 201) {
+                    alert('댓글 작성 실패!');
+                }
+                    
+                window.location.href= `/posts/${postId}`;
+                })
+                .catch(error => {
+                    console.error('fetch error:', error);
+                });
+            
         }
-        
-        fetch(`http://localhost:8081/posts/${postId}/comments/${addCommentBtn.getAttribute("data-id")}`, data); 
-        window.location.href= `/posts/${postId}`;
-        
-        
-    } else {
-        const obj = {
-            postId : `${postId}`,
-            writer : `${userId}`,
-            text : `${commentInput.value}`
-        }
-        
-        const data = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj)
-        }
-        
-        fetch(`http://localhost:8081/posts/${postId}/comments`, data); // 댓글 추가 post요청, 리다이렉트 되도록
-        window.location.href= `/posts/${postId}`; // 추가 후 목록 페이지로 리다이렉트
-    }
-    
-});
+    });
 
 
 
@@ -226,10 +244,10 @@ async function init() {
 
 
 
-fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
-.then(commentsData => commentsData.json())
-    .then(commentsJson => {
-        commentsJson.forEach(comment => {
+    await fetch(`${BACKEND_IP_PORT}/posts/${postId}/comments`) 
+        .then(commentsData => commentsData.json())
+        .then(commentsJson => {
+            commentsJson.forEach(comment => {
             
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
@@ -248,12 +266,6 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             const writerInfoIdDiv = document.createElement('div');
             writerInfoIdDiv.classList.add('writer-info-id');
             
-            fetch(`http://localhost:8081/users/${comment.writer}`) // 댓글 작성자 데이터 가져오기
-            .then(userData => userData.json())
-            .then(userJson => {
-                writerInfoImg.src = userJson.profileImage;
-                writerInfoIdDiv.textContent = userJson.nickname;
-            });
             
             
             
@@ -278,7 +290,18 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             writerDeleteBtn.classList.add('writer-delete-btn');
             writerDeleteBtn.textContent = '삭제';
             
-            // 요소들을 조립하여 추가
+            fetch(`${BACKEND_IP_PORT}/users/${comment.writer}`) // 댓글 작성자 데이터 가져오기
+                .then(userData => userData.json())
+                .then(userJson => {
+                    if (parseInt(userJson.id) !== parseInt(userId)) {
+                        writerEditBtn.style.visibility = 'hidden';
+                        writerDeleteBtn.style.visibility = 'hidden';
+                    }
+
+                    writerInfoImg.src = userJson.profileImage;
+                    writerInfoIdDiv.textContent = userJson.nickname;
+                });
+            
             writerInfoDiv.appendChild(writerInfoImg);
             writerInfoDiv.appendChild(writerInfoIdDiv);
             writerInfoDiv.appendChild(writerInfoTimeDiv);
@@ -293,29 +316,21 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             commentDiv.appendChild(btnInfoDiv);
             
             
-            // 댓글 PATCH 기능 추가해야함
+            
             writerEditBtn.addEventListener('click', async () => {  
-                
-                // 버튼 글자 바꾸고 포스트아이디 유저아이디는 고정
-                // 댓글 텍스트로 patch할지 
-                const comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
-                const contentInput = comment.querySelector('.content-info'); // 해당 댓글 내용 입력 필드를 찾음
-                
-                
                 addCommentBtn.textContent = "댓글 수정";
                 addCommentBtn.setAttribute("data-id", comment.id);
+                addCommentBtn.style.backgroundColor = "#7F6AEE";
+                addCommentBtn.disabled = false;
+
                 commentInput.value = contentInput.value;
             });
             
             
             writerDeleteBtn.addEventListener('click', () => {
-                const comment = this.closest('.comment'); // 클릭된 버튼의 부모 요소인 댓글 요소를 찾음
-                const commentDeleteBtn = comment.querySelector('.writer-delete-btn'); // 해당 댓글 내용 입력 필드를 찾음
-                
-                commentDeleteBtn.addEventListener('click', (event) => {
+                writerDeleteBtn.addEventListener('click', (event) => {
                     const modalBack = document.getElementById("modal-back");
                     modalBack.style.visibility = "visible";
-                    
                     
                     const commentModal = document.getElementById("comment-modal");
                     commentModal.style.visibility = "visible";
@@ -327,15 +342,18 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
             
             
             document.body.appendChild(commentDiv);
-            
         })
     });
+
+    const padding = document.createElement('div');
+    padding.classList.add('padding');
+    document.body.appendChild(padding);
     
     
     
     
     
-    commentModalCancel.addEventListener('click', (event) => { // 댓글 삭제 모달 창 내에서 취소
+    commentModalCancel.addEventListener('click', (event) => {
         const modalBack = document.getElementById("modal-back");
         modalBack.style.visibility = "hidden";
         
@@ -345,22 +363,23 @@ fetch(`http://localhost:8081/posts/${postId}/comments`) // 댓글 가져오기
     });
     
     
-    commentModalDelete.addEventListener('click', async (event) => { // 댓글 삭제 모달 창 내에서 삭제 
+    commentModalDelete.addEventListener('click', async (event) => { 
         const commentModal = document.getElementById("comment-modal");
         const modalBack = document.getElementById("modal-back");
         
-        fetch(`http://localhost:8081/posts/${postId}/comments/${commentModal.getAttribute("data-id")}`, {method: 'DELETE'});
+        fetch(`${BACKEND_IP_PORT}/posts/${postId}/comments/${commentModal.getAttribute("data-id")}`, {method: 'DELETE'});
         
-        // 게시글 삭제하고 알림창 띄우고 post로 이동
+
         alert('해당 댓글이 삭제되었습니다!');
         modalBack.style.visibility = "hidden";
         commentModal.style.visibility = "hidden";
         document.body.style.overflow = 'visible';
         
-        window.location.href= `/posts/${postId}`; // 추가 후 목록 페이지로 리다이렉트    
+        window.location.href= `/posts/${postId}`; 
     });
 
 }
+
 
 
 

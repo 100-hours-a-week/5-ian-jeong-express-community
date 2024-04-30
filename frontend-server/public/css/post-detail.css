@@ -430,6 +430,8 @@ header {
     font-weight: 400;
     font-size: 15px;
     line-height: 23.48px;
+
+    cursor: pointer;
 }
 
 .writer-delete-btn {
@@ -439,6 +441,8 @@ header {
     font-weight: 400;
     font-size: 15px;
     line-height: 23.48px;
+
+    cursor: pointer;
 }
 
 .padding {
@@ -496,6 +500,8 @@ header {
     line-height: 23.87px;
     border-radius: 12px;
     border: none;
+
+    cursor: pointer;
 }
 
 #modal-delete {
@@ -508,6 +514,8 @@ header {
     line-height: 23.87px;
     border-radius: 12px;
     border: none;
+
+    cursor: pointer;
 }
 
 #modal-back {
@@ -569,6 +577,8 @@ header {
     line-height: 23.87px;
     border-radius: 12px;
     border: none;
+
+    cursor: pointer;
 }
 
 #comment-modal-delete {
@@ -581,4 +591,6 @@ header {
     line-height: 23.87px;
     border-radius: 12px;
     border: none;
+
+    cursor: pointer;
 }

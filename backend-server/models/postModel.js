@@ -89,7 +89,6 @@ function updatePost(post) {
     const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
 
-    console.log(post.id);
     for (let i = 0; i < postsJsonData.length; i++) {
         if (parseInt(post.id) === parseInt(postsJsonData[i].id)) {
             postsJsonData[i].title = post.title;
@@ -98,7 +97,6 @@ function updatePost(post) {
             postsJsonData[i].image = post.image;
             postsJsonData[i].hits = parseInt(post.hits);
 
-            console.log(postsJsonData[i]);
         } 
     }
     
@@ -114,7 +112,9 @@ function createComment(newComment) {
 
     let newCommentId = parseInt(commentsJsonData[commentsJsonData.length-1].id) + 1;
     const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().replace('T', ' ').split('.')[0];
+    const koreaTimeOffset = 9 * 60; // 분 단위로 계산
+    const koreaTime = new Date(currentDate.getTime() + koreaTimeOffset * 60 * 1000);
+    const formattedDate = koreaTime.toISOString().replace('T', ' ').split('.')[0];
 
     const post = {
         id: newCommentId,

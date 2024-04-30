@@ -58,11 +58,12 @@ function createComment(req, res) {
     const newComment = {
         postId: req.body.postId,
         writer : req.body.writer,
-        title : req.body.title,
         text : req.body.text
     }
 
     model.createComment(newComment);
+
+    res.status(201).send('create_success');
 }
 
 function deleteComment(req, res) {
@@ -75,7 +76,9 @@ function updateComment(req, res) {
         text : req.body.text
     }
 
-    model.updateComment(comment); // 여기 할 차례
+    model.updateComment(comment); 
+
+    res.status(204).send('update_success');
 }
 
 
