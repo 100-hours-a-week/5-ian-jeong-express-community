@@ -1,27 +1,51 @@
+
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
-
-
-const userId = 1;
-
-
-document.addEventListener('keydown', (event) => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-    };
-}, true);
-
-
 
 
 
 const profileImg = document.getElementById("profile-img");
 const dropBox = document.getElementById("drop-down-box");
+const userEditBtn = document.getElementById('user-edit-btn')
+const passwordEditBtn = document.getElementById('password-edit-btn');
 
-profileImg.addEventListener("click", () => {
-    dropBox.style.visibility = "visible";
-});
+const profileImage = document.getElementById('profile-image');
+const imageEditBtn = document.getElementById('image-edit-btn');
+const preview = document.getElementById("preview");
 
-if(dropBox.style.visibility === "visible") {
+const nicknameInput = document.getElementById("nickname-edit");
+const helperText = document.getElementById("helper-text");
+
+const editBtn = document.getElementById("edit-btn");
+const deleteBtn = document.getElementById("delete-btn");
+const editCompleteBtn = document.getElementById("edit-complete-btn");
+
+const modalBack = document.getElementById("modal-back");
+const modal = document.getElementById("modal");
+const modalCancel = document.getElementById("modal-cancel");
+const modalDelete = document.getElementById("modal-delete");
+
+let originNickname;
+let isCorrectNickname = false;
+
+
+init();
+
+
+
+async function init() {
+    var userId = 0;
+    const result = {
+        id: 0
+    }
+
+    await getUserIdFromSession(result);
+    userId = result.id;
+
+    profileImg.addEventListener("click", () => {
+        dropBox.style.visibility = "visible";
+    });
+
+    
     document.addEventListener('click', (event) => {
         const clickedElement = event.target;
 
@@ -29,116 +53,198 @@ if(dropBox.style.visibility === "visible") {
             dropBox.style.visibility = "hidden";
         }
     });
-}
+    
+    userEditBtn.addEventListener('click', (event) => {
+        window.location.href=`/users/${userId}`;
+    });
 
-document.getElementById('user-edit-btn').addEventListener('click', (event) => {
-    window.location.href=`/users/${userId}`;
-});
+    passwordEditBtn.addEventListener('click', (event) => {
+        window.location.href=`/users/${userId}/password`;
+    });
 
-document.getElementById('password-edit-btn').addEventListener('click', (event) => {
-    window.location.href=`/users/${userId}/password`;
-});
-
-
-
-
-
-
-
-
-
-let userNickname;
-const nicknameInput = document.getElementById("nickname-edit");
-
-
-fetch(`http://localhost:8081/users/${userId}`)
-    .then(userData => userData.json())
-    .then(userJson => {
-            document.getElementById("profile-img").src = userJson.profileImage;
-            document.getElementById("preview").src = userJson.profileImage;
+    await fetch(`${BACKEND_IP_PORT}/users/${userId}`)
+        .then(userData => userData.json())
+        .then(userJson => {
+            originNickname = userJson.nickname;
+            profileImg.src = userJson.profileImage;
+        });
+    
+    
+    await fetch(`${BACKEND_IP_PORT}/users/${userId}`)
+        .then(userData => userData.json())
+        .then(userJson => {
+            profileImage.src = userJson.profileImage;
+            preview.src = userJson.profileImage;
             nicknameInput.value = userJson.nickname;
-            userNickname = userJson.nickname;
+        });
+
+
+
+    
+    nicknameInput.addEventListener("input", async (event) => {
+        const value = nicknameInput.value;
+
+        if (!value) {
+            helperText.style.visibility = "visible";
+            helperText.textContent = "*닉네임을 입력해주세요.";   
+            helperText.style.color = "#FF0000";
+            isCorrectNickname = false;
+            editBtn.style.backgroundColor = "#ACA0EB";
+
+        } else if (value.search(/\s/) != -1) { 
+            helperText.style.visibility = "visible";
+            helperText.textContent = "*띄어쓰기를 업애주세요.";
+            helperText.style.color = "#FF0000";
+            isCorrectNickname = false;
+            editBtn.style.backgroundColor = "#ACA0EB";
+
+        } else if (value.length > 11) { 
+            helperText.style.visibility = "visible";
+            helperText.textContent = "*닉네임은 최대 10자 까지 작성 가능합니다.";
+            helperText.style.color = "#FF0000";
+            isCorrectNickname = false;
+            editBtn.style.backgroundColor = "#ACA0EB";
+
+        } else {
+            const flag = {'flag' : false};
+
+            if (value !== originNickname) { 
+                await validateDuplicateNickname(value, flag);
+            } else {
+                flag['flag'] = true;
+            }
+        
+            if (!flag['flag']) {
+                helperText.style.visibility = "visible";
+                helperText.textContent = "*중복된 닉네임 입니다.";
+                helperText.style.color = "#FF0000";
+                editBtn.style.backgroundColor = "#ACA0EB";
+                isCorrectNickname = false;
+            
+            } else {
+                isCorrectNickname = true;
+                editBtn.style.backgroundColor = "#7F6AEE";
+                helperText.style.visibility = "visible";
+                helperText.textContent = "*사용가능한 닉네임입니다.";
+                helperText.style.color = "#0040FF";
+            }
+        }
     });
 
 
 
-function addImage(event) {
-    const file = event.target.files[0]; // 선택한 파일 가져오기
-    const preview = document.getElementById("preview");
+    editBtn.addEventListener('click', async (event) => {
+        event.preventDefault();
         
-    if (file) { // 파일이 있다면
-        const reader = new FileReader();
-        reader.onload = function(e) { // 파일 읽기가 완료 되었을 때 괄호안에 함수 실행됨
-            preview.src = e.target.result; // 이미지를 미리보기에 설정
-            document.getElementById("profile-image").value = preview.src;
+        if (isCorrectNickname) {
+            executeToast();
+
+            await setTimeout(async () => {
+                editBtn.disabled = 'true';
+
+                const obj = {
+                    nickname : nicknameInput.value,
+                    profileImage: preview.src
+                }
+                    
+                const data = {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(obj)
+                }
+            
+                await fetch(`${BACKEND_IP_PORT}/users/${userId}`, data)
+                    .then(response => {
+                    if (response.status === 204) {
+                        window.location.href = `/users/${userId}`;
+                    } else {
+                        alert('회원정보 수정 실패');
+                        window.location.href = `/users/${userId}`;
+                    }
+                  })
+                  .catch(error => {
+                    console.error('fetch error:', error);
+                  });
+                
+                editBtn.disabled = 'false';
+
+            }, 2000);        
+
         }
-        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환 
-        
-    } else {
-        preview.src = "";
-        document.getElementById("profile-image").value = "";
-    }
-}
+
+    })
     
 
 
-// 닉네임 비어있으면 닉네임을 입력해주세요
-// 닉네임 중복시 중복된 닉네임입니다.
-// 닉네임 11자이상 작성시 닉네임 최대 10자 문구 
-const editBtn = document.getElementById("edit-btn");
-const helperText = document.getElementById("helper-text");
 
-editBtn.addEventListener("click", async (event) => {
-    event.preventDefault(); // form 내에서 버튼 클릭 시 리로딩 되니까 헬퍼 텍스트 변경사항이 유지하기 위해
-    const value = nicknameInput.value;
 
-    // 입력이 없을 경우
-    if (!value) {
-        helperText.style.visibility = "visible";
-        helperText.textContent = "*닉네임을 입력해주세요.";   
 
-    } else if (value.search(/\s/) != -1) { // 공백 확인
-        helperText.style.visibility = "visible";
-        helperText.textContent = "*띄어쓰기를 업애주세요.";
+    deleteBtn.addEventListener('click', (event) => {
+        event.preventDefault()
+        modalBack.style.visibility = "visible";
+        modal.style.visibility = "visible";
+    });
 
-    } else if (value.length > 11) { // 11자 이상인지 확인 
-        helperText.style.visibility = "visible";
-        helperText.textContent = "*닉네임은 최대 10자 까지 작성 가능합니다.";
 
+
+    modalCancel.addEventListener('click', (event) => {
+        event.preventDefault()
+        const modalBack = document.getElementById("modal-back");
+        modalBack.style.visibility = "hidden";
+        
+        const modal = document.getElementById("modal");
+        modal.style.visibility = "hidden";
+    });
+
+    const modalDelete = document.getElementById("modal-delete");
+    modalDelete.addEventListener('click', (event) => {
+        event.preventDefault()
+        
+        fetch(`${BACKEND_IP_PORT}/users/${userId}`, {method: 'DELETE'});
+
+        alert('회원탈퇴 되었습니다 !');
+        window.location.href = '/users/sign-in';
+    });
+}
+
+
+
+async function getUserIdFromSession(result) {
+
+    await fetch(`${BACKEND_IP_PORT}/users/session`, {credentials: 'include'})
+        .then(response => response.json())
+        .then(user => {
+            if (parseInt(user.id) !== 0) {
+                result.id = user.id;
+            } else {
+                alert('로그아웃 되었습니다 !');
+                window.location.href = `/users/sign-in`;
+            }
+        });
+}
+
+
+function addImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById("preview");
+        
+    if (file) { 
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        }
+        reader.readAsDataURL(file); 
+        
     } else {
-        const flag = {'flag' : false};
-
-        if (value !== userNickname) { // 입력값이 기존 닉네임이 아니라면
-            await validateDuplicateNickname(value, flag);
-        } else {
-            flag['flag'] = true;
-        }
-        
-        if (!flag['flag']) {
-            helperText.style.visibility = "visible";
-            helperText.textContent = "*중복된 닉네임 입니다.";
-            
-        } else {
-            helperText.style.visibility = "hidden";
-            isCorrectNickname = true;
-        
-            executeToast();
-
-            await setTimeout(() => {
-                const mainForm = document.getElementById("main");
-                mainForm.action=`http://localhost:8081/users/${userId}?_method=PATCH`;
-                mainForm.submit();
-            }, 3000);        
-
-        }
+        preview.src = "";
     }
-
-
-});
+}
 
 
 async function validateDuplicateNickname(nickname, flag) {
-    await fetch(`http://localhost:8081/users/nickname?nickname=${nickname}`)
+    await fetch(`${BACKEND_IP_PORT}/users/nickname?nickname=${nickname}`)
         .then(isDuplicated => isDuplicated.json())
         .then(isDuplicatedJson => {
             if(isDuplicatedJson.result === "true") {
@@ -148,45 +254,6 @@ async function validateDuplicateNickname(nickname, flag) {
 }
 
 
-
-const editCompleteBtn = document.getElementById("edit-complete-btn");
-
 function executeToast() {
     editCompleteBtn.style.marginTop = "5.9vh";
 }
-
-
-
-
-
-const deleteBtn = document.getElementById("delete-btn");
-deleteBtn.addEventListener('click', (event) => {
-    event.preventDefault()
-    const modalBack = document.getElementById("modal-back");
-    modalBack.style.visibility = "visible";
-    
-
-    const modal = document.getElementById("modal");
-    modal.style.visibility = "visible";
-});
-
-
-const modalCancel = document.getElementById("modal-cancel");
-modalCancel.addEventListener('click', (event) => {
-    event.preventDefault()
-    const modalBack = document.getElementById("modal-back");
-    modalBack.style.visibility = "hidden";
-    
-    const modal = document.getElementById("modal");
-    modal.style.visibility = "hidden";
-});
-
-const modalDelete = document.getElementById("modal-delete");
-modalDelete.addEventListener('click', (event) => {
-    event.preventDefault()
-    
-    fetch(`http://localhost:8081/users/${userId}`, {method: 'DELETE'});
-
-    alert('회원탈퇴 되었습니다 !');
-    window.location.href = '/users/sign-in';
-});

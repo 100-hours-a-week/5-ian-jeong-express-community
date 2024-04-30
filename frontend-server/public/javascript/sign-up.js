@@ -82,7 +82,7 @@ emailInput.addEventListener("input", async (event) => {
         } else {
             emailHelper.style.visibility = "visible";
             emailHelper.style.color = "#FF0000";
-            emailHelper.textContent = "*중복된 이메일 입니다.";
+            emailHelper.textContent = "*중복된 이메일입니다.";
             isCorrentEmail = false;
         }
     }

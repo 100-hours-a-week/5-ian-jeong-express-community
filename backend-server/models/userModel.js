@@ -96,14 +96,14 @@ function updateUser(user) {
     const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
-    usersJsonData[parseInt(user.id)-1].nickname = user.nickname;
-    usersJsonData[parseInt(user.id)-1].profileImage = user.profileImage;
+    for (let i = 0; i < usersJsonData.length; i++) {
+        if (parseInt(user.id) === parseInt(usersJsonData[i].id)) {
+            usersJsonData[i].nickname = user.nickname;
+            usersJsonData[i].profileImage = user.profileImage;
+        }
+    }
     
-    
-
-    // postsJsonData[post.id].image =  이미지 수정 생략
     const result = JSON.stringify(usersJsonData);
-    
     fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), result, 'utf8');
 }
 
@@ -126,7 +126,6 @@ function deleteUser(userId) {
     fs.writeFileSync(path.join(__dirname, '/models/repository/comments.json'), deletedJsonData, 'utf8');
 
 
-    // 댓글 수 수정 로직
     let postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
     let postsJsonData = JSON.parse(postsJsonFile);
 

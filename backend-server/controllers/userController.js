@@ -82,7 +82,7 @@ function updateUser(req, res) {
     }
 
     model.updateUser(user); 
-    res.redirect(`http://localhost:8080/users/${user.id}`);
+    res.status(204).send('update_success');
 }
 
 function deleteUser(req, res) {
