@@ -140,10 +140,10 @@ async function init() {
                     .then(response => {
                         editBtn.disabled = 'false';
                     if (response.status === 204) {
-                        window.location.href = `/users/${userId}`;
+                        window.location.href = `/users/${userId}/password`;
                     } else {
                         alert('비밀번호 수정 실패');
-                        window.location.href = `/users/${userId}`;
+                        window.location.href = `/users/${userId}/password`;
                     }
                   })
                   .catch(error => {

@@ -1,6 +1,7 @@
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
 
+const backBtn = document.getElementById("back-btn")
 const profileImg = document.getElementById("profile-img");
 const dropBox = document.getElementById("drop-down-box");
 const userEditBtn = document.getElementById('user-edit-btn');
@@ -27,6 +28,11 @@ async function init() {
 
     await getUserIdFromSession(result);
     userId = result.id;
+
+    backBtn.addEventListener('click', () => {
+        window.location.href=`/posts`;
+    }) 
+    
 
     profileImg.addEventListener("click", () => {
         dropBox.style.visibility = "visible";

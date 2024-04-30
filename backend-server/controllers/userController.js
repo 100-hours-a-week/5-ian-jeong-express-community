@@ -88,7 +88,7 @@ function updateUser(req, res) {
 function deleteUser(req, res) {
     model.deleteUser(req.params.userId);
 
-    res.staus(204).send('delete_success');
+    res.status(204).send('delete_success');
 }
 
 
@@ -101,7 +101,7 @@ function updateUserPassword(req, res) {
     
     model.updateUserPassword(user); 
     
-    res.staus(204).send('update_success');
+    res.status(204).send('update_success');
 }
 
 

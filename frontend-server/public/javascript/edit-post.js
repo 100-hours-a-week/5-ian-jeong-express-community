@@ -10,7 +10,7 @@ const backBtn = document.getElementById("back-btn")
 const titleInput = document.getElementById("title-input");
 const title = document.getElementById("title-input");
 const postInput = document.getElementById("post-input");
-const imageName = document.getElementById("image-selection");
+const imageInput = document.getElementById("image-selection");
 const image = document.getElementById("image");
 const fileName = document.getElementById("file-name");
 const helperText = document.getElementById("helper-text");
@@ -111,7 +111,7 @@ async function init() {
 
         const title = titleInput.value;
         const post = postInput.value;
-        const imageName = fileName.value;
+        const imageName = fileName.textContent;
         const imageUrl = image.src;
 
         if (!title || !post) {
@@ -175,21 +175,19 @@ async function getUserIdFromSession(result) {
 
 function addImage(event) {
     const file = event.target.files[0]; 
-    fileName.textContent = imageName.value.split('\\').pop();
     
     if (file) { 
         const reader = new FileReader();
-    
+        
         reader.onload = function(e) {
             image.src = e.target.result;
+            fileName.textContent = imageInput.value.split('\\').pop();
         }
         reader.readAsDataURL(file); 
         
-    
         return;
     } 
     
-    imageName.value = "";
     image.src = "";
     fileName.textContent = "";
 }
