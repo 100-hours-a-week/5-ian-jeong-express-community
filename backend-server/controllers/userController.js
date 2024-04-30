@@ -87,6 +87,8 @@ function updateUser(req, res) {
 
 function deleteUser(req, res) {
     model.deleteUser(req.params.userId);
+
+    res.staus(204).send('delete_success');
 }
 
 

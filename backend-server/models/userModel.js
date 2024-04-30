@@ -107,46 +107,27 @@ function updateUser(user) {
     fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), result, 'utf8');
 }
 
+
 function deleteUser(userId) {
     const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
     let filteredData = usersJsonData.filter(user => user.id !== parseInt(userId));
-
     let deletedJsonData = JSON.stringify(filteredData);
-
 
     fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), deletedJsonData, 'utf8');
 
+
     const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
-    filteredData = commentsJsonData.filter(comment => comment.writer !== parseInt(userId));
-
+    filteredData = commentsJsonData.filter(comment => parseInt(comment.writer) !== parseInt(userId));
     deletedJsonData = JSON.stringify(filteredData);
 
     fs.writeFileSync(path.join(__dirname, '/models/repository/comments.json'), deletedJsonData, 'utf8');
 
 
-    let postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
-    let postsJsonData = JSON.parse(postsJsonFile);
-
-    for (let i = 0; i < postsJsonData.length; i++) {
-        let count = 0;
-        for (let j = 0; j < filteredData.length; j++) {
-            if (filteredData[j].writer === postsJsonData[i].id) {
-                count += 1;
-            }
-        }
-        postsJsonData[i].comments = count; 
-    }
-
-    const result = JSON.stringify(postsJsonData);
-    
-    fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), result);
-
-    postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
-    postsJsonData = JSON.parse(postsJsonFile);
+    const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
+    const postsJsonData = JSON.parse(postsJsonFile);
     filteredData = postsJsonData.filter(post => post.writer !== parseInt(userId));
-
     deletedJsonData = JSON.stringify(filteredData);
 
     fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), deletedJsonData, 'utf8');
