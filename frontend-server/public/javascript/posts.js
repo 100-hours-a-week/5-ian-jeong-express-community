@@ -1,10 +1,10 @@
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
+const profileImg = document.getElementById("profile-img");
+const dropBox = document.getElementById("drop-down-box");
 const userEditBtn = document.getElementById('user-edit-btn');
 const passwordEditBtn = document.getElementById('password-edit-btn');
 
-const profileImg = document.getElementById("profile-img");
-const dropBox = document.getElementById("drop-down-box");
 
 init();
 

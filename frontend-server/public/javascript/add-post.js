@@ -137,9 +137,6 @@ async function init() {
             
         }
     });
-
-
-
 }
 
 

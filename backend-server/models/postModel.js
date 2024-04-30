@@ -16,12 +16,15 @@ function createPost(newPost) {
     const postsJsonData = JSON.parse(postsJsonFile);
 
     let newPostId = parseInt(postsJsonData[postsJsonData.length-1].id) + 1;
+
     const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().replace('T', ' ').split('.')[0];
+    const koreaTimeOffset = 9 * 60; // 분 단위로 계산
+    const koreaTime = new Date(currentDate.getTime() + koreaTimeOffset * 60 * 1000);
+    const formattedDate = koreaTime.toISOString().replace('T', ' ').split('.')[0];
 
     const post = {
         id: newPostId,
-        writer: newPost.writer,
+        writer: parseInt(newPost.writer),
         title: newPost.title,
         imageName: newPost.imageName,
         image: newPost.image,
@@ -86,14 +89,21 @@ function updatePost(post) {
     const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
 
+    console.log(post.id);
     for (let i = 0; i < postsJsonData.length; i++) {
         if (parseInt(post.id) === parseInt(postsJsonData[i].id)) {
             postsJsonData[i].title = post.title;
             postsJsonData[i].content = post.content;
+            postsJsonData[i].imageName = post.imageName;
+            postsJsonData[i].image = post.image;
+            postsJsonData[i].hits = parseInt(post.hits);
+
+            console.log(postsJsonData[i]);
         } 
     }
     
     const result = JSON.stringify(postsJsonData);
+    
     
     fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), result);
 }

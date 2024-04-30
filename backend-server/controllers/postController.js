@@ -44,12 +44,14 @@ function updatePost(req, res) {
         id: parseInt(req.params.postId),
         title : req.body.title,
         content : req.body.content,
-        image : req.body.image
+        imageName: req.body.file,
+        image : req.body.image,
+        hits : req.body.hits
     }
 
     model.updatePost(post); 
 +
-    res.redirect(`http://localhost:8080/posts/${post.id}`);
+    res.status(204).send('update_success');
 }
 
 function createComment(req, res) {

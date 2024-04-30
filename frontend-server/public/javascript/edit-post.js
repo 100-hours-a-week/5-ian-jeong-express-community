@@ -1,6 +1,9 @@
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
 
+
+
+
 document.addEventListener('keydown', (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();
@@ -8,7 +11,7 @@ document.addEventListener('keydown', (event) => {
 }, true);
 
 
-const userId = 1 // 아직 인증, 인가 구현은 안하니까 더미 데이터에 있는 1번 유저를 통해 커뮤니티 구현
+const userId = 1 
 
 document.getElementById('user-edit-btn').addEventListener('click', (event) => {
     window.location.href=`/users/${userId}/edit`;
@@ -51,7 +54,7 @@ titleInput.addEventListener("input", () => {
 
 
 
-// 유저이미지 불러오기
+
 
 
 fetch(`http://localhost:8081/users/${userId}`)
@@ -65,8 +68,7 @@ const currentUrl = window.location.href;
 const urlParams = currentUrl.split('/');
 const postId = urlParams[urlParams.length - 2];
 
-// 폼제출하면 posts/1만 나오도록수정해보자
-// form에서 patch가 적용이안된다고 하니 다른 방법으로 해보자
+
 document.getElementById('main').addEventListener('submit', (event) => {
     this.action=`http://localhost:8081/posts/${postId}?_method=PATCH`;
 });
