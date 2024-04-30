@@ -1,10 +1,6 @@
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
 
-// 세션건재한지 확인하고 유저 아이디 받고 게시글 등록 ㄱㄱ
-// 파일은 경로 끝 파일명이 보이도록하고
-// 실제 저장되고 전송되는 파일은 data url
-// 위과정 하기전에 게시글 데이터에 파일명 속성추가?
 const profileImg = document.getElementById("profile-img");
 const dropBox = document.getElementById("drop-down-box");
 const userEditBtn = document.getElementById('user-edit-btn');
@@ -16,6 +12,7 @@ const fileInput = document.getElementById("file-input");
 const postImage = document.getElementById("post-image");
 const completeBtn = document.getElementById("complete-btn");
 const helperText = document.getElementById("helper-text");
+
 
 
 init()
@@ -95,7 +92,7 @@ async function init() {
 
         const title = titleInput.value;
         const post = postInput.value;
-        const file = fileInput.value;
+        const file = fileInput.value.split('\\').pop();
         const image = postImage.src;
 
         if (!title || !post) {

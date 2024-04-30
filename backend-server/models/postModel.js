@@ -45,24 +45,26 @@ function createPost(newPost) {
 function getPost(postId) {
     const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
-
+    
     for (let i = 0; i < postsJsonData.length; i++) {
         let post = postsJsonData[i];
-        if (post.id === parseInt(postId)) {
+        if (parseInt(post.id) === parseInt(postId)) {
 
             const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
             const commentsJsonData = JSON.parse(commentsJsonFile);
             let count = 0;
+
             for (let j = 0; j < commentsJsonData.length; j++) {
                 if (post.id === commentsJsonData[j].postId) {
                     count++;
                 }
             }
+            
             postsJsonData[i].comments = count;
             fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), JSON.stringify(postsJsonData), 'utf8');
-            post = postsJsonData[i];
+            
 
-            return post;
+            return postsJsonData[i];
         }
     }
 }

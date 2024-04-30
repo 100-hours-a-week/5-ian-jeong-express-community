@@ -12,7 +12,7 @@ function createPost(req, res) {
     const newPost = {
         writer : req.body.writer,
         title : req.body.title,
-        content : req.body.post,
+        content : req.body.content,
         imageName: req.body.imageName,
         image : req.body.image
     }
@@ -24,7 +24,6 @@ function createPost(req, res) {
 
 function getPost(req, res) {
     const post = model.getPost(req.params.postId);
-
     res.json(post);
 }
 
@@ -44,7 +43,7 @@ function updatePost(req, res) {
         id: parseInt(req.params.postId),
         title : req.body.title,
         content : req.body.content,
-        imageName: req.body.file,
+        imageName: req.body.imageName,
         image : req.body.image,
         hits : req.body.hits
     }

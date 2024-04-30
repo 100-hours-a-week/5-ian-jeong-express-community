@@ -38,7 +38,7 @@
                 제목*
             </div>
             
-            <input type="text" id="title-input" value="제목1" name="title">
+            <input type="text" id="title-input" value="" name="title">
             
         </div>
 
@@ -51,14 +51,21 @@
             
 
             <textarea id="post-input" name="content"></textarea>
+            <div id="helper-text">*helper-text</div>
         </div>
 
 
         
         <div id="image-selection-box">
             <div id="image-selection-text">이미지</div>
+
+            <div id="image-label-box">
+                <label for="image-selection" id="image-label">파일 선택</label>
+                <div id="file-name"></div>
+            </div>
+
             <input type="file" id="image-selection" value="" name="image" onchange="addImage(event)">
-            <div id="image-file">기존 이미지</div>
+            <img id="image" src="">
         </div>
 
         <button id="edit-btn">수정하기</button>

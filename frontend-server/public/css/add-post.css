@@ -249,6 +249,8 @@ form {
 
     transition-property: background-color;
     transition-duration: 1s;
+
+    cursor: pointer;
 }
 
 #post-image {

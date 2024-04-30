@@ -132,7 +132,7 @@ async function init() {
 
             const obj = {
                 title: postJson.title,
-                content: postJson.post,
+                content: postJson.content,
                 imageName: postJson.imageName,
                 image: postJson.image,
                 hits: hitsNum.textContent

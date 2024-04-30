@@ -1,113 +1,196 @@
 BACKEND_IP_PORT = localStorage.getItem('backend-ip-port');
 
 
-
-
-
-document.addEventListener('keydown', (event) => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-    };
-}, true);
-
-
-const userId = 1 
-
-document.getElementById('user-edit-btn').addEventListener('click', (event) => {
-    window.location.href=`/users/${userId}/edit`;
-});
-
-document.getElementById('password-edit-btn').addEventListener('click', (event) => {
-    window.location.href=`/users/${userId}/password`;
-})
-
-
-
 const profileImg = document.getElementById("profile-img");
-profileImg.addEventListener("click", () => {
-    const dropBox = document.getElementById("drop-down-box");
-    dropBox.style.visibility = "visible";
-});
+const dropBox = document.getElementById("drop-down-box");
+const userEditBtn = document.getElementById('user-edit-btn');
+const passwordEditBtn = document.getElementById('password-edit-btn');
+const backBtn = document.getElementById("back-btn")
 
-document.addEventListener('click', (event) => {
-    const dropBox = document.getElementById("drop-down-box");
-    const profileImg = document.getElementById("profile-img");
-    const clickedElement = event.target;
-
-    if (clickedElement !== profileImg) {
-        dropBox.style.visibility = "hidden";
-    }
-});
-
-
-// 제목 26여섯글자 제한
 const titleInput = document.getElementById("title-input");
-titleInput.addEventListener("input", () => {
-    const inputText = this.value;
-    
-    
-    if (inputText.length > 26) {
-        this.value = inputText.slice(0, 26);
-    }
-});
-
-
-
-
-
-
-
-fetch(`http://localhost:8081/users/${userId}`)
-    .then(userData => userData.json())
-    .then(userJson => {
-            document.getElementById("profile-img").src = userJson.profileImage;
-    })
-
+const title = document.getElementById("title-input");
+const postInput = document.getElementById("post-input");
+const imageName = document.getElementById("image-selection");
+const image = document.getElementById("image");
+const fileName = document.getElementById("file-name");
+const helperText = document.getElementById("helper-text");
+const editBtn = document.getElementById("edit-btn");
 
 const currentUrl = window.location.href;
 const urlParams = currentUrl.split('/');
 const postId = urlParams[urlParams.length - 2];
 
 
-document.getElementById('main').addEventListener('submit', (event) => {
-    this.action=`http://localhost:8081/posts/${postId}?_method=PATCH`;
-});
+init();
 
 
+async function init() {
+    var userId = 0;
+    const result = {
+        id: 0
+    }
 
-fetch(`http://localhost:8081/posts/${postId}`)
-    .then(postData => postData.json())
-    .then(postJson => {
-        
-        
-        let postTitle = document.getElementById("title-input");
-        postTitle.value = postJson.title;
+    backBtn.addEventListener('click', () => {
+        window.location.href=`/posts/${postId}`;
+    }) 
+    
+    profileImg.addEventListener("click", () => {
+        dropBox.style.visibility = "visible";
+    });
 
-        let postText = document.getElementById("post-input");
-        postText.value = postJson.content;
-                
-        let postImage = document.getElementById("image-file");
-        postImage.textContent = `기존 이미지 ${postJson.image}`;
-        
-        let image = document.getElementById("image-selection");
-        image.value = postJson.image;
+    await getUserIdFromSession(result);
+    userId = result.id;
+
+    userEditBtn.addEventListener('click', (event) => {
+        window.location.href=`/users/${userId}/edit`;
+    });
+
+    passwordEditBtn.addEventListener('click', (event) => {
+        window.location.href=`/users/${userId}/password`;
+    })
+
+
+    document.addEventListener('click', (event) => {
+        const clickedElement = event.target;
+
+        if (clickedElement !== profileImg) {
+            dropBox.style.visibility = "hidden";
+        }
     });
 
 
-function addImage(event) {
-    const file = event.target.files[0]; // 선택한 파일 가져오기
+    await fetch(`${BACKEND_IP_PORT}/users/${userId}`)
+        .then(userData => userData.json())
+        .then(userJson => {
+            profileImg.src = userJson.profileImage;
+        });
+
+
+    titleInput.addEventListener("input", () => {
+        const title = titleInput.value;
+        const post = postInput.value;
+    
+        if (title.length > 26) {
+            titleInput.value = title.slice(0, 26);
+        }
+
+        if (title && post) {
+            editBtn.style.backgroundColor = '#7F6AEE';
+            helperText.style.visibility = "hidden";
+        } else {
+            editBtn.style.backgroundColor = '#ACA0EB';        
+        }
+    });
+
+    postInput.addEventListener('input', () => {
+        const title = titleInput.value;
+        const post = postInput.value;
+
+        if (title && post) {
+            editBtn.style.backgroundColor = '#7F6AEE';
+            helperText.style.visibility = "hidden";
+        } else {
+            editBtn.style.backgroundColor = '#ACA0EB';       
+        }
+    });
+
+
+    await fetch(`${BACKEND_IP_PORT}/posts/${postId}`)
+        .then(postData => postData.json())
+        .then(postJson => {
+            titleInput.value = postJson.title;
+            
+            postInput.value = postJson.content;
+            fileName.textContent = postJson.imageName;
+            image.src = postJson.image;
+    });
+
+
+    editBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const title = titleInput.value;
+        const post = postInput.value;
+        const imageName = fileName.value;
+        const imageUrl = image.src;
+
+        if (!title || !post) {
+            helperText.textContent = "*제목, 내용을 모두 작성해주세요.";
+            helperText.style.visibility = "visible";
+
+        } else { 
+            const obj = {
+                title: title,
+                content: post,
+                imageName: imageName,
+                image: imageUrl,
+                hits: post.hits
+            }
+                
+            const data = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            }
         
-    if (file) { // 파일이 있다면
+            await fetch(`${BACKEND_IP_PORT}/posts/${postId}`, data)
+                .then(response => {
+                if (response.status === 204) {
+                    alert('게시글이 수정되었습니다!');
+                    window.location.href = `/posts/${postId}`;
+
+                } else {
+                    alert('게시글 수정 실패!');
+                    window.location.href = `/posts/${postId}`;
+
+                }
+              })
+              .catch(error => {
+                console.error('fetch error:', error);
+              });
+            
+        }
+    });
+}
+
+
+
+
+async function getUserIdFromSession(result) {
+
+    await fetch(`${BACKEND_IP_PORT}/users/session`, {credentials: 'include'})
+        .then(response => response.json())
+        .then(user => {
+            if (parseInt(user.id) !== 0) {
+                result.id = user.id;
+            } else {
+                alert('로그아웃 되었습니다 !');
+                window.location.href = `/users/sign-in`;
+            }
+        });
+}
+
+
+function addImage(event) {
+    const file = event.target.files[0]; 
+    fileName.textContent = imageName.value.split('\\').pop();
+    
+    if (file) { 
         const reader = new FileReader();
     
-        reader.onload = function(e) { // Reader 에 이벤트 핸들러 할당
-            document.getElementById("image-selection").value = e.target.result;
+        reader.onload = function(e) {
+            image.src = e.target.result;
         }
-        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환, 변환 완료 되면 reader가 가진 이벤트 발생 
+        reader.readAsDataURL(file); 
         
+    
         return;
     } 
     
-    document.getElementById("file-input").value = "";
+    imageName.value = "";
+    image.src = "";
+    fileName.textContent = "";
 }
     
