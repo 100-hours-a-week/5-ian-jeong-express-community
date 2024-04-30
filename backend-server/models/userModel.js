@@ -137,10 +137,13 @@ function updateUserPassword(user) {
     const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
-    usersJsonData[parseInt(user.id)-1].password = user.password;
+    for (let i = 0; i < usersJsonData.length; i++) {
+        if (parseInt(user.id) === parseInt(usersJsonData[i].id)) {
+            usersJsonData[i].password = user.password;
+        }
+    }
     
     const result = JSON.stringify(usersJsonData);
-    
     fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), result, 'utf8');
 }
 

@@ -157,6 +157,7 @@ async function init() {
             
                 await fetch(`${BACKEND_IP_PORT}/users/${userId}`, data)
                     .then(response => {
+                        editBtn.disabled = 'false';
                     if (response.status === 204) {
                         window.location.href = `/users/${userId}`;
                     } else {
@@ -168,7 +169,7 @@ async function init() {
                     console.error('fetch error:', error);
                   });
                 
-                editBtn.disabled = 'false';
+                
 
             }, 2000);        
 

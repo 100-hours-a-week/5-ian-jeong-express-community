@@ -19,7 +19,7 @@ const nicknameHelper = document.getElementById("nickname-input-helper-text");
 
 const signUpBtn = document.getElementById('sign-up-btn');
 
-let isCorrentEmail = false;
+let isCorrectEmail = false;
 let isCorrectPassword = false;
 let isCorrectRePassword = false;
 let isCorrectNickname = false;
@@ -58,13 +58,13 @@ emailInput.addEventListener("input", async (event) => {
         emailHelper.style.visibility = "visible";
         emailHelper.style.color = "#FF0000";
         emailHelper.textContent = "*이메일을 입력해주세요";
-        isCorrentEmail = false;
+        isCorrectEmail = false;
 
     } else if (!validateEmailFormat(value)) { 
         emailHelper.style.visibility = "visible";
         emailHelper.style.color = "#FF0000";
         emailHelper.textContent = "*올바른 이메일 주소 형식을 입력해주세요. (예:example@example.com)";
-        isCorrentEmail = false;
+        isCorrectEmail = false;
 
       
     } else {
@@ -78,12 +78,12 @@ emailInput.addEventListener("input", async (event) => {
             emailHelper.style.color = "#0040FF";
             emailHelper.textContent = "*사용가능한 이메일입니다.";
     
-            isCorrentEmail = true;
+            isCorrectEmail = true;
         } else {
             emailHelper.style.visibility = "visible";
             emailHelper.style.color = "#FF0000";
             emailHelper.textContent = "*중복된 이메일입니다.";
-            isCorrentEmail = false;
+            isCorrectEmail = false;
         }
     }
 
@@ -170,7 +170,6 @@ rePasswordInput.addEventListener("input", async (event) => {
 
 function validatePasswordFormat(password) {
     const passwordRegax = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
-
     return passwordRegax.test(password);
 }
 
@@ -247,7 +246,7 @@ async function validateDuplicateNickname(nickname, flag) {
 
 
 function validateAll() {
-    if (isCorrentEmail && isCorrectPassword && isCorrectRePassword && isCorrectNickname) {
+    if (isCorrectEmail && isCorrectPassword && isCorrectRePassword && isCorrectNickname) {
         signUpBtn.style.backgroundColor = '#7F6AEE';
         signUpBtn.disabled = false;
     } else {

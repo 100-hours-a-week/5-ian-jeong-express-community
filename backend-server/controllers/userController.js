@@ -100,7 +100,8 @@ function updateUserPassword(req, res) {
     }
     
     model.updateUserPassword(user); 
-    res.redirect(`http://localhost:8080/users/${user.id}/password`);
+    
+    res.staus(204).send('update_success');
 }
 
 
