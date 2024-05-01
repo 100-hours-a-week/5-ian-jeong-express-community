@@ -26,6 +26,7 @@ app.use(methodOverride('_method'));
 app.use(expressSession(session));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(userRouter.userController.initData());
 
 app.use('/users', userRouter);
 app.use('/posts', postRouter);

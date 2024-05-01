@@ -3,16 +3,22 @@ import path from 'path';
 
 
 const __dirname = path.resolve();
+const usersDataPath = '/models/repository/users.json';
+const postsDataPath = '/models/repository/posts.json';
+const commentsDataPath = '/models/repository/comments.json';
+
+
+
 
 function getPosts() {
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
+    const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
 
     return postsJsonData;
 }
 
 function createPost(newPost) {
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
+    const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
 
     let newPostId = parseInt(postsJsonData[postsJsonData.length-1].id) + 1;
@@ -39,18 +45,18 @@ function createPost(newPost) {
 
     const newPostsJson = JSON.stringify(postsJsonData);
     
-    fs.writeFileSync(__dirname + '/models/repository/posts.json', newPostsJson, 'utf8');
+    fs.writeFileSync(__dirname + postsDataPath, newPostsJson, 'utf8');
 }
 
 function getPost(postId) {
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
+    const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
     
     for (let i = 0; i < postsJsonData.length; i++) {
         let post = postsJsonData[i];
         if (parseInt(post.id) === parseInt(postId)) {
 
-            const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
+            const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
             const commentsJsonData = JSON.parse(commentsJsonFile);
             let count = 0;
 
@@ -61,7 +67,7 @@ function getPost(postId) {
             }
             
             postsJsonData[i].comments = count;
-            fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), JSON.stringify(postsJsonData), 'utf8');
+            fs.writeFileSync(path.join(__dirname, postsDataPath), JSON.stringify(postsJsonData), 'utf8');
             
 
             return postsJsonData[i];
@@ -70,7 +76,7 @@ function getPost(postId) {
 }
 
 function getComments(postId) {
-    const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
+    const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
 
     return commentsJsonData.filter(comment => comment.postId === parseInt(postId));
@@ -78,17 +84,17 @@ function getComments(postId) {
 
 
 function deletePost(postId) {
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
+    const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
     const filteredData = postsJsonData.filter(post => post.id !== parseInt(postId));
     const deletedJsonData = JSON.stringify(filteredData);
 
-    fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), deletedJsonData, 'utf8');
+    fs.writeFileSync(path.join(__dirname, postsDataPath), deletedJsonData, 'utf8');
 }
 
 
 function updatePost(post) {
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
+    const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
 
     for (let i = 0; i < postsJsonData.length; i++) {
@@ -105,11 +111,11 @@ function updatePost(post) {
     const result = JSON.stringify(postsJsonData);
     
     
-    fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), result);
+    fs.writeFileSync(path.join(__dirname, postsDataPath), result);
 }
 
 function createComment(newComment) {
-    const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
+    const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
 
     let newCommentId = parseInt(commentsJsonData[commentsJsonData.length-1].id) + 1;
@@ -130,21 +136,21 @@ function createComment(newComment) {
 
     const newCommentsJson = JSON.stringify(commentsJsonData);
     
-    fs.writeFileSync(__dirname + '/models/repository/comments.json', newCommentsJson,'utf8');
+    fs.writeFileSync(__dirname + commentsDataPath, newCommentsJson,'utf8');
 }
 
 function deleteComment(postId, commentId) {
-    const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
+    const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
     const filteredData = commentsJsonData.filter(comment => comment.id !== parseInt(commentId));
 
     const deletedJsonData = JSON.stringify(filteredData);
 
-    fs.writeFileSync(path.join(__dirname, '/models/repository/comments.json'), deletedJsonData, 'utf8');
+    fs.writeFileSync(path.join(__dirname, commentsDataPath), deletedJsonData, 'utf8');
 }
 
 function updateComment(comment) {
-    const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
+    const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
 
     for (let i = 0; i < commentsJsonData.length; i++) {
@@ -156,7 +162,7 @@ function updateComment(comment) {
 
     const result = JSON.stringify(commentsJsonData);
     
-    fs.writeFileSync(path.join(__dirname, '/models/repository/comments.json'), result, 'utf8');
+    fs.writeFileSync(path.join(__dirname, commentsDataPath), result, 'utf8');
 }
 
 

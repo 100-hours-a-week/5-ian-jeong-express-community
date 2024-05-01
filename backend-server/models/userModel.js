@@ -2,10 +2,15 @@ import fs from 'fs'
 import path from 'path';
 
 const __dirname = path.resolve();
+const usersDataPath = '/models/repository/users.json';
+const postsDataPath = '/models/repository/posts.json';
+const commentsDataPath = '/models/repository/comments.json';
+
+
 
 function validateUser(email, password) {
 
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     for (let i = 0; i < usersJsonData.length; i++) {
@@ -19,7 +24,7 @@ function validateUser(email, password) {
 }
 
 function validateDuplicatedEmail(email) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     for (let i = 0; i < usersJsonData.length; i++) {
@@ -33,7 +38,7 @@ function validateDuplicatedEmail(email) {
 }
 
 function validateDuplicatedNickname(nickname) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     for (let i = 0; i < usersJsonData.length; i++) {
@@ -47,7 +52,7 @@ function validateDuplicatedNickname(nickname) {
 }
 
 function createUser(newUser) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     let newUserId = parseInt(usersJsonData[usersJsonData.length-1].id) + 1;
@@ -64,11 +69,11 @@ function createUser(newUser) {
 
     const newUsersJson = JSON.stringify(usersJsonData);
     
-    fs.writeFileSync(__dirname + '/models/repository/users.json', newUsersJson,'utf8');
+    fs.writeFileSync(__dirname + usersDataPath, newUsersJson,'utf8');
 }
 
 function getUser(userId) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     for (let i = 0; i < usersJsonData.length; i++) {
@@ -80,7 +85,7 @@ function getUser(userId) {
 }
 
 function getUserId(email) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     for (let i = 0; i < usersJsonData.length; i++) {
@@ -93,7 +98,7 @@ function getUserId(email) {
 
 
 function updateUser(user) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     for (let i = 0; i < usersJsonData.length; i++) {
@@ -104,37 +109,37 @@ function updateUser(user) {
     }
     
     const result = JSON.stringify(usersJsonData);
-    fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), result, 'utf8');
+    fs.writeFileSync(path.join(__dirname, usersDataPath), result, 'utf8');
 }
 
 
 function deleteUser(userId) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
     let filteredData = usersJsonData.filter(user => user.id !== parseInt(userId));
     let deletedJsonData = JSON.stringify(filteredData);
 
-    fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), deletedJsonData, 'utf8');
+    fs.writeFileSync(path.join(__dirname, usersDataPath), deletedJsonData, 'utf8');
 
 
-    const commentsJsonFile = fs.readFileSync(__dirname + '/models/repository/comments.json', 'utf8');
+    const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
     filteredData = commentsJsonData.filter(comment => parseInt(comment.writer) !== parseInt(userId));
     deletedJsonData = JSON.stringify(filteredData);
 
-    fs.writeFileSync(path.join(__dirname, '/models/repository/comments.json'), deletedJsonData, 'utf8');
+    fs.writeFileSync(path.join(__dirname, commentsDataPath), deletedJsonData, 'utf8');
 
 
-    const postsJsonFile = fs.readFileSync(__dirname + '/models/repository/posts.json', 'utf8');
+    const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
     filteredData = postsJsonData.filter(post => post.writer !== parseInt(userId));
     deletedJsonData = JSON.stringify(filteredData);
 
-    fs.writeFileSync(path.join(__dirname, '/models/repository/posts.json'), deletedJsonData, 'utf8');
+    fs.writeFileSync(path.join(__dirname, postsDataPath), deletedJsonData, 'utf8');
 }
 
 function updateUserPassword(user) {
-    const usersJsonFile = fs.readFileSync(__dirname + '/models/repository/users.json', 'utf8');
+    const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
 
     for (let i = 0; i < usersJsonData.length; i++) {
@@ -144,7 +149,61 @@ function updateUserPassword(user) {
     }
     
     const result = JSON.stringify(usersJsonData);
-    fs.writeFileSync(path.join(__dirname, '/models/repository/users.json'), result, 'utf8');
+    fs.writeFileSync(path.join(__dirname, usersDataPath), result, 'utf8');
+}
+
+function initData() {
+    if (!fs.existsSync(path.join(__dirname, usersDataPath))) {
+        const adminData = [
+            {
+                id: 0,
+                email: 'jms0538@naver.com',
+                password: 'Admin12!@',
+                nickname: 'admin',
+                profileImage: ''
+            }
+        ];
+        
+        
+        fs.writeFileSync(path.join(__dirname, usersDataPath), JSON.stringify(adminData), 'utf8');
+    } 
+
+
+    if (!fs.existsSync(path.join(__dirname, postsDataPath))) {
+        const adminPostData = [
+            {
+                id: 0,
+                title: '환영합니다!',
+                time: '2024-05-01 11:00:00',
+                image: '',
+                content: '반값습니다. 환영합니다.',
+                likes: 0,
+                hits: 0,
+                comments: 0
+            }
+        ];
+        
+        
+        fs.writeFileSync(path.join(__dirname, usersDataPath), JSON.stringify(adminPostData), 'utf8');
+    }
+
+
+    if (!fs.existsSync(path.join(__dirname, commentsDataPath))) {
+        const adminPostData = [
+            {
+                id: 0,
+                postId: 0,
+                writer: 0,
+                time: '2024-05-01 11:00:00',
+                text: '반값습니다.'
+            }
+        ];
+        
+        
+        fs.writeFileSync(path.join(__dirname, usersDataPath), JSON.stringify(adminPostData), 'utf8');
+    } 
+    
+
 }
 
 
@@ -157,5 +216,6 @@ export default {
     getUserId,
     updateUser,
     deleteUser,
-    updateUserPassword
+    updateUserPassword,
+    initData
 };

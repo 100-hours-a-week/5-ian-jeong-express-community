@@ -104,6 +104,9 @@ function updateUserPassword(req, res) {
     res.status(204).send('update_success');
 }
 
+function initData() {
+    userModel.initData();
+}
 
 
 
@@ -116,5 +119,6 @@ export default {
     getUser,
     updateUser,
     deleteUser,
-    updateUserPassword
+    updateUserPassword,
+    initData
 };
