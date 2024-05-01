@@ -1,16 +1,63 @@
 # Community Service
 
 서비스 로고
-사용 기술 스택
-<br>
+사용 기술 스택 나열
+<br><br>
 
 ## 🚀 Getting Started
 
-1. git clone
-2. back front ip, port 확인
-3. ..
+__1. git clone__
+```bash
+git clone https://github.com/BenchPress200/community-server-express.git
+```
 
 <br>
+
+__2. vscode로 프로젝트 open__
+- 하나의 창에 community-server-express/__frontend-server__
+- 다른 하나의 창에 community-server-express/__backtend-server__
+
+
+<br>
+
+__3. package-lock.json 생성__
+
+- 두 개의 vscode 창에서 각각 터미널을 열어서 npm install 명령으로 package-lock.json 생성
+
+```bash
+npm install
+```
+
+<br>
+
+__4. globals.js 에서 프론트엔드 서버와 백엔드 서버의 IP 주소와 Port 번호 세팅__
+```bash
+📂 community-server-express/frontend-server/public/javascript/globals.js
+📂 community-server-express/backend-server/globals.js
+```
+✅ 두 개의 globals.js를 똑같이 작성해야 함
+<br>
+
+__5. 서버 실행__
+- front, back 각각 터미널에서 npm start를 통해 실행
+```bash
+npm start
+```
+
+<br>
+
+__6. Welcome Page__
+- globals.js에서 FRONTEND_IP_PORT에 할당했던 주소를 브라우저에서 주소창에 입력
+```javascript
+export const FRONTEND_PORT = 8080;
+export const FRONTEND_IP_PORT = `http://localhost:${FRONTEND_PORT}`;
+```
+⬆️ __http://localhost:8080__
+
+
+
+
+<br><br>
 
 
 ## 💥 Features
