@@ -104,8 +104,8 @@ function updateUserPassword(req, res) {
     res.status(204).send('update_success');
 }
 
-function initData() {
-    userModel.initData();
+function initData(req, res, next) {
+    userModel.initData(req, res, next);
 }
 
 

@@ -3,6 +3,7 @@ import userController from './../controllers/userController.js';
 
 
 const router = express.Router();
+router.use(userController.initData);
  
 router.get('/session', (req, res) => {
     if (req.session && req.session.user && req.session.user.id) {
