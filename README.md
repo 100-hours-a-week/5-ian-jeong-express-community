@@ -1,10 +1,14 @@
 # Community Service
 
-
+서비스 로고
+사용 기술 스택
 <br>
 
 ## 🚀 Getting Started
 
+1. git clone
+2. back front ip, port 확인
+3. ..
 
 <br>
 
