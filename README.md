@@ -1,7 +1,9 @@
 # Community Service
 
 
+![](/resource/b.png)
 
+<br>
 
 __🛠️ Tech Stacks__
 
@@ -99,13 +101,112 @@ export const FRONTEND_IP_PORT = `http://localhost:${FRONTEND_PORT}`;
 
 ## 🏯 Architecture
 
+#### Project Architecture
 
-아케텍쳐 도식화
-인증, 인가 방식
-초기데이터 세팅 
-라우트 모델 컨트롤러
-DB사용 X 제이슨 파일로 데이터 관리
+![](/resource/ProjectArchitecture.png)
 
+<br><br><br>
+
+
+![](/resource/a.png)
+
+<br>
+
+#### Directory Structure
+
+```bash
+📂 community-server-express
+|
+| - 📂 frontend-server
+|   |
+|   | - 📂 public # css, js, globals.js 
+|   | - 📂 routes # 유저, 게시물 라우터 모듈
+|   | - 📂 view # html
+|   | - app.js # 프론트엔드 서버 메인
+|
+| - 📂 backend-server
+    |
+    | - 📂 routes # 유저, 게시물 라우터 모듈
+    | - 📂 controllers # 라우터와 모델을 중계, 유저-게시물 컨트롤러
+    | - 📂 models # 유저-게시물 모델, json 더미 데이터
+    | - globals.js # IP 주소, port 번호
+    | - app.js # 백엔드 서버 메인
+```
+
+<br><br><br>
+
+## etc.
+- __DB사용 ❌__
+    - json 파일로 데이터 관리
+<br>
+
+- __세션으로 인증, 인가 구현__
+
+<br>
+
+- __초기데이터 세팅__
+최초 실행 시, community-server-express/backend-server/models/repository/에 있어야할 유저, 게시글, 댓글 json없음
+
+<br>
+
+```javascript
+function initData(req, res, next) {
+    if (!fs.existsSync(path.join(__dirname, usersDataPath))) {
+        const adminData = [
+            {
+                id: 0,
+                email: '*******',
+                password: '*****',
+                nickname: 'admin',
+                profileImage: "data:image/jpeg;base64,..."
+            }
+        ];
+        
+        
+        fs.writeFileSync(path.join(__dirname, usersDataPath), JSON.stringify(adminData), 'utf8');
+    } 
+
+
+    if (!fs.existsSync(path.join(__dirname, postsDataPath))) {
+        const adminPostData = [
+            {
+                id: 0,
+                writer: 0,
+                title: '환영합니다!',
+                time: '2024-05-01 11:00:00',
+                image: '',
+                content: '반값습니다. 환영합니다.',
+                likes: 0,
+                hits: 0,
+                comments: 0
+            }
+        ];
+        
+        
+        fs.writeFileSync(path.join(__dirname, postsDataPath), JSON.stringify(adminPostData), 'utf8');
+    }
+
+
+    if (!fs.existsSync(path.join(__dirname, commentsDataPath))) {
+        const adminPostData = [
+            {
+                id: 0,
+                postId: 0,
+                writer: 0,
+                time: '2024-05-01 11:00:00',
+                text: '반갑습니다.'
+            }
+        ];
+        
+        
+        fs.writeFileSync(path.join(__dirname, commentsDataPath), JSON.stringify(adminPostData), 'utf8');
+    } 
+    
+    next();
+}
+```
+__다음과 같이, 해당 초기화 함수를 유저 라우터에 미들웨어로 등록__
+__users.json, posts.json, comments.json이 없다면 초기데이터로 생성해버림__
 
 
 
