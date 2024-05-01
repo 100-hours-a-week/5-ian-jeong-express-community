@@ -7,8 +7,14 @@
 
 __🛠️ Tech Stacks__
 
-<img src="https://img.shields.io/badge/html5-E34F26?style=plastic&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css3-1572B6?style=plastic&logo=css3&logoColor=white"> [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=plastic&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+<img src="https://img.shields.io/badge/html5-E34F26?style=plastic&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css3-1572B6?style=plastic&logo=css3&logoColor=white"> [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=plastic&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)  
 <img src="https://img.shields.io/badge/Node.js-339933?style=plastic&logo=Node.js&logoColor=white"/> [![Express](https://img.shields.io/badge/Express-000000?style=plastic&logo=express&logoColor=white)](https://expressjs.com/)
+
+<br>
+
+__⚙️ Development Enviroment__
+[![MacOS](https://img.shields.io/badge/MacOS-000000?style=plastic&logo=macos&logoColor=black")](https://www.apple.com/macos/big-sur/) [![Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-blue?style=plastic&logo=visualstudiocode&logoColor=white)](https://code.visualstudio.com/)
+
 
 <br><br><br>
 
@@ -145,7 +151,8 @@ export const FRONTEND_IP_PORT = `http://localhost:${FRONTEND_PORT}`;
 <br>
 
 - __초기데이터 세팅__
-최초 실행 시, community-server-express/backend-server/models/repository/에 있어야할 유저, 게시글, 댓글 json없음
+
+    - 최초 실행 시, community-server-express/backend-server/models/repository/에 있어야할 유저, 게시글, 댓글 json없음
 
 <br>
 
