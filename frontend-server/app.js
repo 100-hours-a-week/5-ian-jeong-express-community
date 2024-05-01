@@ -3,11 +3,11 @@ import path from 'path';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
+import { FRONTEND_PORT } from './public/javascript/global.js'; 
 import userRouter from './routes/userRouter.js';
 import postRouter from './routes/postRouter.js';
 
-const app = express();
-const port = 8080; 
+const app = express(); 
 const __dirname = path.resolve();
 
 app.use(cookieParser());
@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
 
-app.listen(port, () => { 
+app.listen(FRONTEND_PORT, () => { 
     console.log(`====================================== COMMUNITY FRONTEND SERVER START ! ======================================`);
-    console.log(`PORT NUMBER -> ${port}`);
+    console.log(`PORT NUMBER -> ${FRONTEND_PORT}`);
 });
 

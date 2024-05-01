@@ -5,13 +5,12 @@ import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 
-import { FRONTEND_IP_PORT } from './global.js';
+import { BACKEND_PORT, FRONTEND_IP_PORT } from './global.js';
 import userRouter from './routes/userRouter.js';
 import postRouter from './routes/postRouter.js';
 
 
 const app = express();
-const port = 8081; 
 const session = {
     secret: "my key",
     resave: true,
@@ -31,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
 
-app.listen(port, () => { 
+app.listen(BACKEND_PORT, () => { 
     console.log(`====================================== COMMUNITY BACKEND SERVER START ! ======================================`);
-    console.log(`PORT NUMBER -> ${port}`);
+    console.log(`PORT NUMBER -> ${BACKEND_PORT}`);
 });
