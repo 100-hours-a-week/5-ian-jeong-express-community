@@ -1,8 +1,14 @@
 # Community Service
 
-서비스 로고
-사용 기술 스택 나열
-<br><br>
+
+
+
+__🛠️ Tech Stacks__
+
+<img src="https://img.shields.io/badge/html5-E34F26?style=plastic&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css3-1572B6?style=plastic&logo=css3&logoColor=white"> [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=plastic&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+<img src="https://img.shields.io/badge/Node.js-339933?style=plastic&logo=Node.js&logoColor=white"/> [![Express](https://img.shields.io/badge/Express-000000?style=plastic&logo=express&logoColor=white)](https://expressjs.com/)
+
+<br><br><br>
 
 ## 🚀 Getting Started
 
@@ -36,6 +42,7 @@ __4. globals.js 에서 프론트엔드 서버와 백엔드 서버의 IP 주소�
 📂 community-server-express/backend-server/globals.js
 ```
 ✅ 두 개의 globals.js를 똑같이 작성해야 함
+
 <br>
 
 __5. 서버 실행__
@@ -52,30 +59,66 @@ __6. Welcome Page__
 export const FRONTEND_PORT = 8080;
 export const FRONTEND_IP_PORT = `http://localhost:${FRONTEND_PORT}`;
 ```
-⬆️ __http://localhost:8080__
+⬆️ 위 처럼 작성했다면 __http://localhost:8080__ 사용
 
 
 
 
-<br><br>
+<br><br><br>
 
 
 ## 💥 Features
 
+- #### 회원가입
+
+- #### 로그인
+
+- #### 게시글 작성
+
+- #### 게시글 조회
+
+- #### 게시글 수정
+
+- #### 게시글 삭제
+
+- #### 댓글 작성
+
+- #### 댓글 조회
+
+- #### 댓글 수정
+
+- #### 댓글 삭제
+
+- #### 유저 정보 조회 및 수정
+
+- #### 유저 정보 삭제
 
 
 
-<br>
+<br><br><br>
 
 ## 🏯 Architecture
 
-<br>
+
+아케텍쳐 도식화
+인증, 인가 방식
+초기데이터 세팅 
+라우트 모델 컨트롤러
+DB사용 X 제이슨 파일로 데이터 관리
 
 
 
 
 
 
+
+
+
+
+
+
+
+<br><br><br>
 
 ##  🎯 Troubleshooting
 
