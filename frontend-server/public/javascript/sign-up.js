@@ -31,10 +31,10 @@ function addImage(event) {
     if (file) {
         const reader = new FileReader();
 
-        reader.onload = function(e) { // Reader 에 이벤트 핸들러 할당
+        reader.onload = function(e) { 
             preview.src = e.target.result; 
         }
-        reader.readAsDataURL(file); // 파일을 읽어서 데이터 URL로 변환, 변환 완료 되면 reader가 가진 이벤트 발생
+        reader.readAsDataURL(file); 
     
         document.getElementById("profile-helper-text").style.visibility = "hidden";
 

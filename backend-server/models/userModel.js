@@ -23,6 +23,7 @@ function validateUser(email, password) {
     return false;
 }
 
+
 function validateDuplicatedEmail(email) {
     const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
@@ -37,6 +38,7 @@ function validateDuplicatedEmail(email) {
     return true;
 }
 
+
 function validateDuplicatedNickname(nickname) {
     const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
@@ -50,6 +52,7 @@ function validateDuplicatedNickname(nickname) {
     
     return true;
 }
+
 
 function createUser(newUser) {
     const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
@@ -72,6 +75,7 @@ function createUser(newUser) {
     fs.writeFileSync(__dirname + usersDataPath, newUsersJson,'utf8');
 }
 
+
 function getUser(userId) {
     const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
@@ -83,6 +87,7 @@ function getUser(userId) {
         }
     }
 }
+
 
 function getUserId(email) {
     const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
@@ -138,6 +143,7 @@ function deleteUser(userId) {
     fs.writeFileSync(path.join(__dirname, postsDataPath), deletedJsonData, 'utf8');
 }
 
+
 function updateUserPassword(user) {
     const usersJsonFile = fs.readFileSync(__dirname + usersDataPath, 'utf8');
     const usersJsonData = JSON.parse(usersJsonFile);
@@ -151,6 +157,7 @@ function updateUserPassword(user) {
     const result = JSON.stringify(usersJsonData);
     fs.writeFileSync(path.join(__dirname, usersDataPath), result, 'utf8');
 }
+
 
 function initData(req, res, next) {
     if (!fs.existsSync(path.join(__dirname, usersDataPath))) {
@@ -196,7 +203,7 @@ function initData(req, res, next) {
                 postId: 0,
                 writer: 0,
                 time: '2024-05-01 11:00:00',
-                text: '반값습니다.'
+                text: '반갑습니다.'
             }
         ];
         

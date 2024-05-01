@@ -17,6 +17,7 @@ function getPosts() {
     return postsJsonData;
 }
 
+
 function createPost(newPost) {
     const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
     const postsJsonData = JSON.parse(postsJsonFile);
@@ -24,7 +25,7 @@ function createPost(newPost) {
     let newPostId = parseInt(postsJsonData[postsJsonData.length-1].id) + 1;
 
     const currentDate = new Date();
-    const koreaTimeOffset = 9 * 60; // 분 단위로 계산
+    const koreaTimeOffset = 9 * 60;
     const koreaTime = new Date(currentDate.getTime() + koreaTimeOffset * 60 * 1000);
     const formattedDate = koreaTime.toISOString().replace('T', ' ').split('.')[0];
 
@@ -47,6 +48,7 @@ function createPost(newPost) {
     
     fs.writeFileSync(__dirname + postsDataPath, newPostsJson, 'utf8');
 }
+
 
 function getPost(postId) {
     const postsJsonFile = fs.readFileSync(__dirname + postsDataPath, 'utf8');
@@ -74,6 +76,7 @@ function getPost(postId) {
         }
     }
 }
+
 
 function getComments(postId) {
     const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
@@ -114,6 +117,7 @@ function updatePost(post) {
     fs.writeFileSync(path.join(__dirname, postsDataPath), result);
 }
 
+
 function createComment(newComment) {
     const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
@@ -139,6 +143,7 @@ function createComment(newComment) {
     fs.writeFileSync(__dirname + commentsDataPath, newCommentsJson,'utf8');
 }
 
+
 function deleteComment(postId, commentId) {
     const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
     const commentsJsonData = JSON.parse(commentsJsonFile);
@@ -148,6 +153,7 @@ function deleteComment(postId, commentId) {
 
     fs.writeFileSync(path.join(__dirname, commentsDataPath), deletedJsonData, 'utf8');
 }
+
 
 function updateComment(comment) {
     const commentsJsonFile = fs.readFileSync(__dirname + commentsDataPath, 'utf8');
